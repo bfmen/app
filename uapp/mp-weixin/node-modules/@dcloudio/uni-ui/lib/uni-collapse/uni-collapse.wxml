@@ -1,0 +1,1 @@
+<view class="uni-collapse data-v-2c7c34c2"><slot></slot></view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "bananas",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "list": "/app/banana/components/list"
+  }
+}

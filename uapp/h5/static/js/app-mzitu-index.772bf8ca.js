@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["app-mzitu-index"],{"8a5e":function(e,n,t){"use strict";var u;t.r(n);var a,i=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("v-uni-view",[e._v("123")])},c=[],l=t("f0c5"),r={},p=Object(l["a"])(r,i,c,!1,null,null,null,!1,u,a);n["default"]=p.exports}}]);

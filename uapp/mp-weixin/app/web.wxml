@@ -1,0 +1,1 @@
+<view style="height:100%;" class="data-v-0b148bca"><web-view webview-styles="{{webviewStyles}}" src="{{url}}" class="data-v-0b148bca"></web-view></view>
