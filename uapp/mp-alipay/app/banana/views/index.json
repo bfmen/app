@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "banana",
+  "usingComponents": {
+    "uni-list": "/node-modules/npm-scope-dcloudio/uni-ui/lib/uni-list/uni-list",
+    "uni-list-item": "/node-modules/npm-scope-dcloudio/uni-ui/lib/uni-list-item/uni-list-item"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "bananas",
+  "usingComponents": {
+    "list": "/app/banana/components/list",
+    "uni-search-bar": "/node-modules/npm-scope-dcloudio/uni-ui/lib/uni-search-bar/uni-search-bar"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "pages": [
+    "app/entry/index",
+    "app/mzitu/index",
+    "app/web",
+    "app/banana/views/index",
+    "app/banana/views/minVideo",
+    "app/banana/views/hot",
+    "app/banana/views/minList",
+    "app/banana/views/home",
+    "app/banana/views/special",
+    "app/banana/views/detail",
+    "app/banana/views/search",
+    "app/banana/views/class",
+    "app/love/index",
+    "app/love/search",
+    "app/love/chat",
+    "app/love/detail"
+  ],
+  "subPackages": [],
+  "window": {
+    "defaultTitle": "uni-app",
+    "titleBarColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {}
+}

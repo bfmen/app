@@ -1,0 +1,6 @@
+{
+  "defaultTitle": "bananas",
+  "usingComponents": {
+    "list": "/app/banana/components/list"
+  }
+}

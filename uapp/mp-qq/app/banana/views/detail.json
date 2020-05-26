@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "bananas",
+  "usingComponents": {
+    "list": "/app/banana/components/list"
+  }
+}

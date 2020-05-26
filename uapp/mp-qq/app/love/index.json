@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "love",
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "uni-collapse": "/node-modules/@dcloudio/uni-ui/lib/uni-collapse/uni-collapse",
+    "uni-collapse-item": "/node-modules/@dcloudio/uni-ui/lib/uni-collapse-item/uni-collapse-item",
+    "card": "/app/love/card"
+  }
+}

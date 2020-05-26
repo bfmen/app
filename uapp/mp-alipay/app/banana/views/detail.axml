@@ -1,0 +1,1 @@
+<view class="detail data-v-7ecc90fe"><image class="image data-v-7ecc90fe" mode="widthFix" src="{{dataSource.row.pic||dataSource.row.coverpic}}"></image><view class="data-v-7ecc90fe">{{dataSource.row.intro}}</view><list vue-id="67ba8f28-1" dataList="{{dataSource.vodrows}}" class="data-v-7ecc90fe" onVueInit="__l"></list></view>

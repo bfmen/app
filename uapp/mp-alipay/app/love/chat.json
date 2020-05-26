@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "chat",
+  "pullRefresh": true,
+  "usingComponents": {
+    "zy-search": "/components/zy-search/zy-search"
+  }
+}

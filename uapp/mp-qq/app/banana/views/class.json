@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "bananas",
+  "usingComponents": {
+    "list": "/app/banana/components/list",
+    "tag-select": "/app/banana/components/tagSelect"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "bananas",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "uni-segmented-control": "/node-modules/@dcloudio/uni-ui/lib/uni-segmented-control/uni-segmented-control",
+    "list": "/app/banana/components/list"
+  }
+}

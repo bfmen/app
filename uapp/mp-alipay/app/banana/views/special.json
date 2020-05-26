@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "bananas",
+  "pullRefresh": true,
+  "usingComponents": {
+    "list": "/app/banana/components/list"
+  }
+}
