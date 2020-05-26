@@ -4,11 +4,7 @@
     "ignore": []
   },
   "setting": {
-    "urlCheck": true,
-    "es6": false,
-    "postcss": false,
-    "minified": false,
-    "newFeature": true
+    "urlCheck": false
   },
   "compileType": "miniprogram",
   "projectname": "uapp",
@@ -30,6 +26,6 @@
       "list": []
     }
   },
-  "qqappid": "touristappid",
+  "qqappid": "1108100302",
   "qqLibVersion": "1.6.3"
 }
