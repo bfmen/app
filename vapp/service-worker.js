@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.ac0f83f9a93e02b8f41b500377d0eac8.js"
+  "precache-manifest.7fbdbd5260b37b8d05961ee47bc6e46f.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "vapp"});
