@@ -1,0 +1,19 @@
+name: Mirror to Bitbucket Repo
+
+on: [ push, delete, create ]
+
+# Ensures that only one mirror task will run at a time.
+concurrency:
+  group: git-mirror
+
+jobs:
+  git-mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wearerequired/git-mirror-action@v1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.AUTHINE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.AUTHINE_KEY }}
+        with:
+          source-repo: "git@github.com:smanx/app.git"
+          destination-repo: "git@gitee.com:cocochuan/app.git"
