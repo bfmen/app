@@ -13,7 +13,7 @@ jobs:
       - uses: wearerequired/git-mirror-action@v1
         env:
           SSH_PRIVATE_KEY: ${{ secrets.AUTHINE_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.AUTHINE_KEY }}
+          # SSH_KNOWN_HOSTS: ${{ secrets.AUTHINE_KEY }}
         with:
           source-repo: "git@github.com:smanx/app.git"
           destination-repo: "git@gitee.com:cocochuan/app.git"
