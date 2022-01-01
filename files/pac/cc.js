@@ -1,7 +1,8 @@
 var proxy = "HTTPS natcm.iggwebcache.com:26443;HTTPS hk.cdn.nttsoftgroup.com:54300;HTTPS PP0x2VeWegUg.netvigatorscdn.com:50443;HTTPS 132236.statics.hgcbroadband.net:20443; DIRECT";
 let hosts = [
   "google.com",
-  "youtube.com"
+  "youtube.com",
+  "ytimg.com"
 ]
 var direct = 'DIRECT;';
 var domainsUsingProxy = {
