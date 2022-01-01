@@ -3,7 +3,8 @@ let hosts = [
   "google.com",
   "youtube.com",
   "ytimg.com",
-  "googlevideo.com"
+  "googlevideo.com",
+  "telegram.org"
 ]
 var direct = 'DIRECT;';
 var domainsUsingProxy = {
