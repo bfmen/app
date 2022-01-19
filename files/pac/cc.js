@@ -6,7 +6,8 @@ let hosts = [
   "googlevideo.com",
   "telegram.org",
   "telegram.me",
-  "t.me"
+  "t.me",
+  "pornbest.org"
 ]
 var direct = 'DIRECT;';
 var domainsUsingProxy = {
