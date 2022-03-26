@@ -8,7 +8,8 @@ let hosts = [
   "telegram.me",
   "t.me",
   "pornbest.org",
-  "pornhub.com"
+  "pornhub.com",
+  "phncdn.com"
 ]
 var direct = 'DIRECT;';
 var domainsUsingProxy = {
