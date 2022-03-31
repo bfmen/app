@@ -19,7 +19,8 @@ let hosts = [
   "t.me",
   "pornbest.org",
   "pornhub.com",
-  "phncdn.com"
+  "phncdn.com",
+  "pronstore.com"
 ]
 var direct = 'DIRECT;';
 var domainsUsingProxy = {
