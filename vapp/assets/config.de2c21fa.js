@@ -1,1 +1,0 @@
-const s="https:",e="6jwti3892pf605m004mn.lagoapps.com",o=s+"//"+e,t={device:"iPhone 7 13.4 1.0",s_device_id:"374B5729-7F3F-4C8F-B6DE-80FF0A333633",s_os_version:"13.4",s_platform:"ios",_t:"1587401036000"};var i={protocol:s,host:e,origin:o,home:o+"/index",query:()=>Object.assign(t,{_t:new Date().valueOf()})};export{i as c};
