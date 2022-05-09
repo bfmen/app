@@ -2,7 +2,7 @@ const cacheName = 'cacheName'
 
 function isCache1(event) {
 	let url = event.request.url
-	return ['img3.xjnewpic.com', '/vod/reqplay/'].some(include => url.includes(include))
+	return ['.jpg', '/vod/reqplay/'].some(include => url.includes(include))
 }
 
 function isCache2(event) {
@@ -24,7 +24,7 @@ function isCacheType(event) {
 
 
 self.addEventListener('fetch', function (event) {
-	console.log('fetch', event.request.url)
+	// console.log('fetch', event.request.url)
 	if (isCache1(event)) {
 		event.respondWith(
 			caches.open(cacheName).then((cache) => {
@@ -40,7 +40,7 @@ self.addEventListener('fetch', function (event) {
 			caches.open(cacheName).then((cache) => {
 				return caches.match(event.request).then((cacheResponse) => {
 					const fetchPromise = fetch(event.request).then((networkResponnse) => {
-						cache.put(event.request, networkResponnse)
+						cache.put(event.request, networkResponnse.clone())
 						return networkResponnse
 					})
 					return cacheResponse || fetchPromise
