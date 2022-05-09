@@ -8,6 +8,7 @@ function isCache(event) {
 }
 
 self.addEventListener('fetch', function (event) {
+    console.log('fetch', event.request.url)
     if (isCache(event)) {
         event.respondWith(
             caches.open(cacheName).then(function (cache) {
