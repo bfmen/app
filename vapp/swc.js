@@ -2,7 +2,7 @@ const cacheName = 'cacheName'
 
 function isCache1(event) {
 	let url = event.request.url
-	return ['.jpg', '/vod/reqplay/'].some(include => url.includes(include))
+	return ['.jpg'].some(include => url.includes(include))
 }
 
 function isCache2(event) {
