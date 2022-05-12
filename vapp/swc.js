@@ -24,7 +24,7 @@ function isCacheType(event) {
 
 
 self.addEventListener('fetch', function (event) {
-	// console.log('fetch', event.request.url)
+	console.log('fetch ==>', event.request.url)
 	if (isCache1(event)) {
 		event.respondWith(
 			caches.open(cacheName).then((cache) => {
