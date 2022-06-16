@@ -1,37 +1,96 @@
-console.log('Hello World2');
+const mongoose = require('mongoose');
 const cheerio = require('cheerio');
 const axios = require('axios');
 const config = require('./config')
 let url = config.url + '/pornstars'
+const Star = mongoose.model('star', require('./schema/star.schema.js'));
 start()
 
 async function start() {
-    // let data = await request(url)
-    let data = (await axios(url, config.pornstars)).data
+    await getAllStart()
+}
+
+async function getAllStart(page = 1) {
+    let res = (await axios({ url, params: { ...config.pornstars, page } }))
+    data = res.data
     const $ = cheerio.load(data);
     let children = $('#popularPornstars li .wrap')
     children = [...children].map(item => {
         let path = $(item).find('a').attr('href')
         let imgSrc = $(item).find('a img').attr('data-src')
-        let pornStarName = $(item).find('.thumbnail-info-wrapper .pornStarName').text().trim()
-        let [conut, times] = $(item).find('.videosNumber').text().replaceAll('\t','').replaceAll(' ','').replaceAll('views','').split('Videos')
-
+        let name = $(item).find('.thumbnail-info-wrapper a.title').text().trim()
+        let [conut, times] = $(item).find('.videosNumber').text()
+            .replaceAll('\t', '')
+            .replaceAll(' ', '')
+            .replaceAll('views', '')
+            .split('Videos')
+            .map(str => {
+                if (str.endsWith('B')) str = str.replaceAll('B', '') * Math.pow(10, 9)
+                else if (str.endsWith('M')) str = str.replaceAll('M', '') * Math.pow(10, 6)
+                else if (str.endsWith('K')) str = str.replaceAll('K', '') * Math.pow(10, 3)
+                return parseInt(str)
+            })
+        if (!name) {
+            console.log('name', path)
+        }
         return {
-            pornStarName,
+            name,
             path,
             imgSrc,
             conut,
             times
         }
     })
-    console.log(children)
+    if (!children.length) {
+        console.log('getAllStart end')
+    } else {
+        await saveStars(children)
+        await downloadStars(children)
+        console.log('page', page, children.length)
+        await getAllStart(++page)
+    }
 
-
-    const mongoose = require('mongoose');
-    mongoose.connect('mongodb://localhost/p');
-
-    const Cat = mongoose.model('dog', require('./schema/example.schema.js'));
-
-    const kitty = new Cat({ name: 'Zildjian4', living: true });
-    kitty.save().then((res) => console.log('meow', res));
 }
+
+async function downloadStars(stars) {
+    for (const star of stars) {
+        let path = './stars' + star.path.split('/').slice(0, 2).join('/')
+        let name = star.name + '.' + star.imgSrc.split('.').pop()
+        await downloadFile(star.imgSrc, path, name)
+        console.log('downloadStar', path, name)
+    }
+}
+
+async function downloadFile(url, path, name) {
+    const axios = require('axios');
+    const fs = require('fs');
+    await new Promise((resolve, reject) => {
+        fs.mkdir(path, { recursive: true }, function (res) {
+            res ? reject(res) : resolve(res)
+        })
+    })
+    let dsa = path + '/' + name
+    const res = await axios.get(url, {
+        responseType: 'arraybuffer', // 特别注意，需要加上此参数
+    });
+    fs.writeFileSync(dsa, res.data);
+}
+
+async function saveStar(star, Star, key) {
+    const kitty = new Star(star);
+    let data = await Star.findOne({ [key]: star[key] })
+    if (data) {
+        let res = await kitty.update({ [key]: star[key] })
+        console.log('saveStar2', star.name)
+    } else {
+        let res = await kitty.save();
+        console.log('saveStar1', star.name)
+    }
+}
+async function saveStars(stars) {
+    mongoose.connect(config.mongodbUrl);
+    for (const star of stars) {
+        await saveStar(star, Star, 'name')
+    }
+}
+

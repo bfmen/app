@@ -6,5 +6,6 @@ module.exports = {
     pornstars: {
         o: 't',
         page: 1
-    }
+    },
+    mongodbUrl: 'mongodb://localhost/p'
 }
