@@ -70,10 +70,12 @@ async function downloadFile(url, path, name) {
         })
     })
     let dsa = path + '/' + name
-    const res = await axios.get(url, {
-        responseType: 'arraybuffer', // 特别注意，需要加上此参数
-    });
-    fs.writeFileSync(dsa, res.data);
+    if (!fs.existsSync(dsa)) {
+        const res = await axios.get(url, {
+            responseType: 'arraybuffer', // 特别注意，需要加上此参数
+        });
+        fs.writeFileSync(dsa, res.data);
+    }
 }
 
 async function saveStar(star, Star, key) {
