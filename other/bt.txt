@@ -1,0 +1,21 @@
+sudo bt start
+sudo bt default
+
+http://localhost:8888/c1309bcb/
+http://127.0.0.1:8888/c1309bcb/
+fluent-ffmpeg single-line-log
+https://e1v-h.phncdn.com/hls/videos/202205/24/408676281/,1080P_4000K,720P_4000K,480P_2000K,240P_1000K,_408676281.mp4.urlset/master.m3u8?validfrom=1655296108&validto=1655303308&ip=52.187.53.244&ipa=52.187.53.244&hdl=-1&hash=bvv9McFMtGnrxsL34Axw8Vcun%2Bo%3D&
+
+@smanx ➜ /workspaces/app (master ✗) $ sudo bt default
+==================================================================
+BT-Panel default info!
+==================================================================
+外网面板地址: http://52.187.53.244:8888/c1309bcb
+内网面板地址: http://172.16.5.4:8888/c1309bcb
+*以下仅为初始默认账户密码，若无法登录请执行bt命令重置账户/密码登录
+username: smanx
+password: 123456
+If you cannot access the panel,
+release the following panel port [8888] in the security group
+若无法访问面板，请检查防火墙/安全组是否有放行面板[8888]端口
+==================================================================
