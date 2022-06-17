@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "mongoose": "^6.3.8",
     "throttle-proxy": "^2.3.1"
   }
 }

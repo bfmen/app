@@ -1,6 +1,11 @@
 sudo bt start
 sudo bt default
 
+cd other/proxy
+yarn throttle-proxy
+
+Ubuntu 20.04.4 LTS x86_64(Py3.7.9
+
 http://localhost:8888/123456/
 http://127.0.0.1:8888/123456/
 fluent-ffmpeg single-line-log

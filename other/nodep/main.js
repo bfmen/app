@@ -30,7 +30,7 @@ async function getAllStart(page = 1) {
                 else if (str.endsWith('K')) str = str.replaceAll('K', '') * Math.pow(10, 3)
                 return parseInt(str)
             })
-        if (!name) {
+        if (!name || name == 'unknown') {
             console.log('name', path)
         }
         return {
@@ -40,7 +40,7 @@ async function getAllStart(page = 1) {
             conut,
             times
         }
-    })
+    }).filter(item => item.name !== 'unknown')
     if (!children.length) {
         console.log('getAllStart end')
     } else {
@@ -56,12 +56,18 @@ async function downloadStars(stars) {
     for (const star of stars) {
         let path = './stars' + star.path.split('/').slice(0, 2).join('/')
         let name = star.name + '.' + star.imgSrc.split('.').pop()
-        await downloadFile(star.imgSrc, path, name)
-        console.log('downloadStar', path, name)
+        console.log('downloadStar1', path, name)
+        let res = await downloadFile(star.imgSrc, path, name, 1000)
+        if (res) {
+            console.log('downloadStars error', star.imgSrc, res, 600000)
+            await new Promise(resolve => setTimeout(resolve, 60000))
+            return await downloadStars(stars)
+        }
+        console.log('downloadStar2', path, name)
     }
 }
 
-async function downloadFile(url, path, name) {
+async function downloadFile(url, path, name, timeout) {
     const axios = require('axios');
     const fs = require('fs');
     await new Promise((resolve, reject) => {
@@ -71,10 +77,15 @@ async function downloadFile(url, path, name) {
     })
     let dsa = path + '/' + name
     if (!fs.existsSync(dsa)) {
-        const res = await axios.get(url, {
-            responseType: 'arraybuffer', // 特别注意，需要加上此参数
-        });
-        fs.writeFileSync(dsa, res.data);
+        try {
+            await new Promise(resolve => setTimeout(resolve, timeout || 0))
+            const res = await axios.get(url, {
+                responseType: 'arraybuffer', // 特别注意，需要加上此参数
+            });
+            fs.writeFileSync(dsa, res.data);
+        } catch (error) {
+            return error
+        }
     }
 }
 
