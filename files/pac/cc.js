@@ -12,7 +12,7 @@ let hosts = [
   "phncdn.com",
   "pronstore.com"
 ]
-var direct = 'DIRECT;';
+var direct = "DIRECT;";
 var domainsUsingProxy = {
       "googleapis.com": 1,
       "googlecode.com": 1,
