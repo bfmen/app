@@ -1,4 +1,4 @@
-var proxy="HTTPS uu0x2VeWegUg.harmonycloudcache.com:22443; DIRECT";
+var proxy="HTTPS hk.cdn.nttsoftgroup.com:54300;HTTPS uu0x2VeWegUg.harmonycloudcache.com:22443;HTTPS node0x2VeWegUg.api.steamgamepowered.com:19443; DIRECT";
 let hosts = [
   "google.com",
   "youtube.com",
