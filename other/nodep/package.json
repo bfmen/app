@@ -5,14 +5,17 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon main.js",
-    "dev2": "nodemon dlMovie.js"
+    "dev2": "nodemon dlMovie.js",
+    "start": "sudo bt start & npx throttle-proxy"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.11",
     "fluent-ffmpeg": "^2.1.2",
+    "mongoose": "^6.4.0",
     "nodemon": "^2.0.16",
     "request": "^2.88.2",
-    "single-line-log": "^1.1.2"
+    "single-line-log": "^1.1.2",
+    "youtube-dl": "^3.5.0"
   }
 }
