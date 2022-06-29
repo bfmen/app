@@ -1,0 +1,14 @@
+{
+  "name": "s_banana",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon main.js"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "nodemon": "^2.0.16",
+    "pako": "^2.0.4"
+  }
+}
