@@ -3,14 +3,18 @@ const config = require('./config.js')
 const axios = require('axios')
 const { zip, unzip } = require('./zip.js');
 let dataSourceStr = ''
+let dataSource = {}
 let dataSourceTxtName = 'dataSource.txt'
 let dataSourceJsonName = 'dataSource.json'
 
 start()
 
 async function start(){
-    dataSource = unzip(await getDataSource())
-    await loadData(1)
+    let data = await getDataSource()
+    dataSourceStr = data ? unzip(data) : '{}'
+    dataSource = JSON.parse(dataSourceStr)
+    console.log("初始", Object.keys(dataSource).length)
+    await loadData(87)
 }
 
 async function getDataSource() {
@@ -30,24 +34,30 @@ async function getDataSource2() {
 }
 
 async function loadData(page) {
-    console.log('loadData', page)
+    console.log('loadData', page, '页')
     const url = config.origin + '/vod/latest-0-0-0-0-0-0-0-0-0-' + page;
-    let res = await axios({
-        url,
-        params: {
-            ...config.query(),
-        },
-    })
-    if (res && res.data && res.data.retcode == 0) {
-        if (res.data.data.vodrows.length) {
-            await saveData(res.data.data.vodrows)
-            await saveFile()
-            await loadData(++page)
+    try {
+        let res = await axios({
+            url,
+            params: {
+                ...config.query(),
+            },
+        })
+        if (res && res.data && res.data.retcode == 0) {
+            if (res.data.data.vodrows.length) {
+                console.log('loadData', res.data)
+                await saveData(res.data.data.vodrows)
+                await saveFile()
+                await loadData(++page)
+            } else {
+                console.log('结束', page, res)
+            }
         } else {
-            console.log('结束', page, res)
+            console.log('error', res)
+            await loadData(page)
         }
-    } else {
-        console.log('error', res)
+    } catch (error) {
+        console.log('网络错误, 再来', error.code, error)
         await loadData(page)
     }
 }
@@ -63,7 +73,7 @@ async function saveData(data) {
         }
         dataSource[item.vodid] = item
     });
-    console.log('saveData', addNum, upNum)
+    console.log('saveData','add', addNum, 'update',upNum)
 }
 
 async function saveFile() {
@@ -75,7 +85,7 @@ async function saveFile() {
                     console.log('写入错误', err);
                     reject(err)
                 }
-                console.log("写入成功", Object.keys(dataSource).length)
+                console.log("写入成功", Object.keys(dataSource).length, '压缩比例', dataSourceStr.length / JSON.stringify(dataSource).length)
                 resolve()
             })
         
