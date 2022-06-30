@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon main.js",
     "dev2": "nodemon getListImage",
-    "dev3": "nodemon getListV"
+    "dev3": "nodemon getListV",
+    "dev4": "nodemon getDataFormNetwork"
   },
   "dependencies": {
     "axios": "^0.27.2",
