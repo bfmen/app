@@ -4,7 +4,7 @@ const axios = require('axios')
 const { zip, unzip } = require('./zip.js');
 let dataSourceStr = ''
 let dataSource = {}
-let dataSourceTxtName = 'dataSource.txt'
+let dataSourceTxtName = config.dataSourceTxtName
 let dataSourceJsonName = 'dataSource.json'
 
 start()
@@ -14,7 +14,7 @@ async function start(){
     dataSourceStr = data ? unzip(data) : '{}'
     dataSource = JSON.parse(dataSourceStr)
     console.log("初始", Object.keys(dataSource).length)
-    await loadData(87)
+    await loadData(90)
 }
 
 async function getDataSource() {
@@ -45,7 +45,7 @@ async function loadData(page) {
         })
         if (res && res.data && res.data.retcode == 0) {
             if (res.data.data.vodrows.length) {
-                console.log('loadData', res.data)
+                // console.log('loadData', res.data)
                 await saveData(res.data.data.vodrows)
                 await saveFile()
                 await loadData(++page)
@@ -79,17 +79,14 @@ async function saveData(data) {
 async function saveFile() {
     let dataSourceStr = zip(dataSource)
     await new Promise((resolve, reject) => {
-        fs.unlink(dataSourceTxtName, function(err) {
-            fs.writeFile(dataSourceTxtName,dataSourceStr,(err)=>{
-                if (err) {
-                    console.log('写入错误', err);
-                    reject(err)
-                }
-                console.log("写入成功", Object.keys(dataSource).length, '压缩比例', dataSourceStr.length / JSON.stringify(dataSource).length)
-                resolve()
-            })
-        
-         });
+        fs.writeFile(dataSourceTxtName,dataSourceStr,(err)=>{
+            if (err) {
+                console.log('写入错误', err);
+                reject(err)
+            }
+            console.log("写入成功", Object.keys(dataSource).length, '压缩比例', dataSourceStr.length / JSON.stringify(dataSource).length)
+            resolve()
+        })
     })
 }
 

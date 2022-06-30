@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon main.js"
+    "dev": "nodemon main.js",
+    "dev2": "nodemon getListImage",
+    "dev3": "nodemon getListV"
   },
   "dependencies": {
     "axios": "^0.27.2",
