@@ -68,6 +68,7 @@ async function saveData(data) {
     let upNum = 0
     data.forEach(item => {
         if (dataSource[item.vodid]) {
+            if (dataSource[item.vodid].play_url_data) item.play_url_data = dataSource[item.vodid].play_url_data
             upNum++
         } else {
             addNum++

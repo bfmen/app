@@ -31,8 +31,8 @@ async function start() {
                 let data = res.data
                 if (data) {
                     obj.play_url_data = data
-                    // await saveFile(dataSource)
-                    console.log('v 更新', obj.vodid, data.retcode, `${index}/${Object.keys(dataSource).length}`)
+                    if (index % 1000 == 0) await saveFile(dataSource)
+                    console.log('v 更新', obj.vodid, dataSource[key].play_url_data.retcode, `${index}/${Object.keys(dataSource).length}`)
                 } else {
                     console.log('v 跳过2 no data', obj.vodid, data && data.errmsg && data.retcode, `${index}/${Object.keys(dataSource).length}`)
                 }
@@ -41,7 +41,7 @@ async function start() {
             }
             // await new Promise(resolve => setTimeout(resolve, 100))
         } else {
-            console.log('v 跳过1', obj.vodid, `${index}/${Object.keys(dataSource).length}`, data.errmsg)
+            console.log('v 跳过1', obj.vodid, `${index}/${Object.keys(dataSource).length}`, obj.play_url_data.retcode)
         }
     }
     console.log('完成1', Object.keys(dataSource).length)
