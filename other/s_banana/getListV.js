@@ -6,10 +6,7 @@ const { zip, unzip } = require('./zip.js');
 let dataSource = {}
 let dataSourceTxtName = config.dataSourceTxtName
 
-start()
-
 async function start() {
-
     var ip = await require('qiao-get-ip').getIp();
     console.log(ip);
 
@@ -41,7 +38,7 @@ async function start() {
             }
             // await new Promise(resolve => setTimeout(resolve, 100))
         } else {
-            console.log('v 跳过1', obj.vodid, `${index}/${Object.keys(dataSource).length}`, obj.play_url_data.retcode)
+            if (index % 1000 == 0) console.log('v 跳过1', obj.vodid, `${index}/${Object.keys(dataSource).length}`, obj.play_url_data.retcode)
         }
     }
     console.log('完成1', Object.keys(dataSource).length)
@@ -70,3 +67,5 @@ async function saveFile(dataSource = dataSource) {
         })
     })
 }
+
+module.exports = start

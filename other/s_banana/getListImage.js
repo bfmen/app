@@ -6,8 +6,6 @@ const { zip, unzip } = require('./zip.js');
 let dataSource = {}
 let dataSourceTxtName = config.dataSourceTxtName
 
-start()
-
 async function start() {
     let data = await getDataSource()
     dataSourceStr = data ? unzip(data) : '{}'
@@ -36,7 +34,7 @@ async function start() {
             }
             // await new Promise(resolve => setTimeout(resolve, 100))
         } else {
-            console.log('key 跳过', obj.vodid, `${index}/${Object.keys(dataSource).length}`)
+            if (index % 1000 == 0) console.log('key 跳过', obj.vodid, `${index}/${Object.keys(dataSource).length}`)
         }
     }
     console.log('完成', Object.keys(dataSource).length)
@@ -49,3 +47,5 @@ async function getDataSource() {
         });
     })
 }
+
+module.exports = start

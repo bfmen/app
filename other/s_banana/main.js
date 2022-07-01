@@ -2,6 +2,8 @@ const fs = require('fs');
 const config = require('./config.js')
 const axios = require('axios')
 const { zip, unzip } = require('./zip.js');
+const getListV = require('./getListV')
+const getListImage = require('./getListImage')
 let dataSourceStr = ''
 let dataSource = {}
 let dataSourceTxtName = config.dataSourceTxtName
@@ -13,8 +15,16 @@ async function start() {
     let data = await getDataSource()
     dataSourceStr = data ? unzip(data) : '{}'
     dataSource = JSON.parse(dataSourceStr)
-    console.log("初始", Object.keys(dataSource).length, Object.keys(dataSource).sort((i, j) => i - j).join(','))
+    console.log("初始", Object.keys(dataSource).length)
+    console.log('start loadData')
     await loadData(1)
+    console.log('end loadData')
+    console.log('start getListV')
+    await getListV()
+    console.log('end getListV')
+    console.log('start getListImage')
+    await getListImage()
+    console.log('end getListImage')
 }
 
 async function getDataSource() {
@@ -46,12 +56,14 @@ async function loadData(page) {
         if (res && res.data && res.data.retcode == 0) {
             let pageinfo = res.data.data.pageinfo
             console.log('loadData', res.data.data.vodrows.map(item => item.vodid).join(','))
-            await saveData(res.data.data.vodrows)
+            let isCompleted = saveData(res.data.data.vodrows)
             await saveFile()
-            if (pageinfo.totalpage > page) {
+            if (isCompleted) {
+                console.log('结束16')
+            }else if (pageinfo.totalpage > page) {
                 await loadData(++page)
             } else {
-                console.log('结束', page, res)
+                console.log('结束00', page, res)
             }
         } else {
             console.log('error', res)
@@ -63,7 +75,7 @@ async function loadData(page) {
     }
 }
 
-async function saveData(data) {
+function saveData(data) {
     let addNum = 0
     let upNum = 0
     data.forEach(item => {
@@ -76,6 +88,7 @@ async function saveData(data) {
         dataSource[item.vodid] = item
     });
     console.log('saveData', 'add', addNum, 'update', upNum)
+    return upNum == 16
 }
 
 async function saveFile() {
