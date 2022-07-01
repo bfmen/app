@@ -6,6 +6,6 @@ dist
 yarn.lock
 yarn-error.log
 other/nodep/stars
-other/s_banana/dist_deploy
+other/s_banana/dist_deploy/coverpic
 # Local Netlify folder
 .netlify
