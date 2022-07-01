@@ -7,7 +7,7 @@ function isCache1(event) {
 
 function isCache2(event) {
 	let url = event.request.url
-	return ['6jwti3892pf605m004mn.lagoapps.com'].some(include => url.includes(include))
+	return ['6jwti3892pf605m004mn.lagoapps.com','the-awesome-smanx-site.netlify.app/coverpic'].some(include => url.includes(include))
 }
 
 function isCache3(event) {
