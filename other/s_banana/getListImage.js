@@ -15,7 +15,7 @@ async function start() {
     for (let index = 0; index < Object.keys(dataSource).length; index++) {
         let key = Object.keys(dataSource)[index]
         let obj = dataSource[key]
-        let path = `./coverpic/${obj.vodid}`
+        let path = `dist_deploy/coverpic/${obj.vodid}`
         if (!fs.existsSync(path)) {
             console.log('key 下载', obj.vodid, `${index}/${Object.keys(dataSource).length}`)
             try {

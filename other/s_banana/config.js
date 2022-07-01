@@ -15,6 +15,6 @@ module.exports = {
 	home: origin + '/index',
 	query: () => ({ ...query, _t: new Date().valueOf(), s_device_id: query.s_device_id + '-' + new Date().valueOf() + '-' + Math.random().toString().slice(2, 8) }),
 	// query: () => ({ ...query }),
-	dataSourceTxtName: 'dataSource.txt'
+	dataSourceTxtName: 'dist_deploy/dataSource.txt'
 }
 

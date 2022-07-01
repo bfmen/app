@@ -7,7 +7,9 @@ const getListImage = require('./getListImage')
 let dataSourceStr = ''
 let dataSource = {}
 let dataSourceTxtName = config.dataSourceTxtName
-let dataSourceJsonName = 'dataSource.json'
+
+// yarn netlify login
+// yarn netlify deploy
 
 start()
 
@@ -30,14 +32,6 @@ async function start() {
 async function getDataSource() {
     return await new Promise((resolve, reject) => {
         fs.readFile(dataSourceTxtName, function (err, data) {
-            resolve(data)
-        });
-    })
-}
-
-async function getDataSource2() {
-    return await new Promise((resolve, reject) => {
-        fs.readFile(dataSourceJsonName, function (err, data) {
             resolve(data)
         });
     })
