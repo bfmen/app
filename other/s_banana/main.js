@@ -9,7 +9,7 @@ let dataSource = {}
 let dataSourceTxtName = config.dataSourceTxtName
 
 // yarn netlify login
-// yarn netlify deploy
+// yarn netlify deploy --prod --dir=dist_deploy
 
 start()
 
