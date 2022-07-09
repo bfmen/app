@@ -7,7 +7,9 @@
     "dev": "nodemon main.js",
     "dev2": "nodemon getListImage",
     "dev3": "nodemon getListV",
-    "dev4": "nodemon getDataFormNetwork"
+    "dev4": "nodemon getDataFormNetwork",
+    "build": "node main",
+    "pub": "yarn netlify deploy --prod --dir=dist_deploy"
   },
   "dependencies": {
     "axios": "^0.27.2",
