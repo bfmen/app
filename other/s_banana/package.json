@@ -9,7 +9,8 @@
     "dev3": "nodemon getListV",
     "dev4": "nodemon getDataFormNetwork",
     "build": "node main",
-    "pub": "yarn netlify deploy --prod --dir=dist_deploy"
+    "pub:only": "yarn netlify deploy --prod --dir=dist_deploy",
+    "pub": "npm run build; npm run pub:only"
   },
   "dependencies": {
     "axios": "^0.27.2",
