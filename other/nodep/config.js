@@ -1,5 +1,6 @@
 module.exports = {
     url: 'https://www.pornhub.com',
+    urlCn: 'https://cn.pornhub.com',
     view_video: 'https://cn.pornhub.com/view_video.php',
     pornstars: {
         o: 't',

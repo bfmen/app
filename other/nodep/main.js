@@ -1,19 +1,20 @@
 const mongoose = require('mongoose');
 const cheerio = require('cheerio');
+const fs = require('fs');
 const axios = require('./axios');
 const config = require('./config')
-let url = config.url + '/pornstars'
-const Star = mongoose.model('star', require('./schema/star.schema.js'));
+// const Star = mongoose.model('star', require('./schema/star.schema.js'));
+const { zip, unzip } = require('./zip.js');
 start()
 
 async function start() {
     // await getAllStart()
-    let error = await downLoadForViewkey('ph62251209de802')
-    console.log('error', error)
+    // let error = await downLoadForViewkey('ph62251209de802')
+    // console.log('error', error)
+    await require('./getDetail')()
 }
 
 async function downLoadForViewkey(viewkey) {
-    
     let url = config.view_video
     let res = (await axios({ url: config.view_video + '?viewkey=' + viewkey }))
     data = res.data
@@ -69,7 +70,16 @@ async function downLoadForViewkey(viewkey) {
 
 
 async function getAllStart(page = 1) {
-    let res = (await axios({ url, params: { ...config.pornstars, page } }))
+    if (page > 10) {
+        return
+    }
+    let url = config.url + '/pornstars'
+    let params = { ...config.pornstars, page }
+    let res = await axios({ url, params })
+    if (!res) {
+        await getAllStart(++page)
+        return
+    }
     data = res.data
     const $ = cheerio.load(data);
     let children = $('#popularPornstars li .wrap')
@@ -79,13 +89,17 @@ async function getAllStart(page = 1) {
         let name = $(item).find('.thumbnail-info-wrapper a.title').text().trim()
         let [conut, times] = $(item).find('.videosNumber').text()
             .replaceAll('\t', '')
-            .replaceAll(' ', '')
             .replaceAll('views', '')
-            .split('Videos')
+            .replaceAll('视频', '')
+            .replaceAll('次观看', '')
+            .split('     ')
             .map(str => {
-                if (str.endsWith('B')) str = str.replaceAll('B', '') * Math.pow(10, 9)
-                else if (str.endsWith('M')) str = str.replaceAll('M', '') * Math.pow(10, 6)
-                else if (str.endsWith('K')) str = str.replaceAll('K', '') * Math.pow(10, 3)
+                str = str.replaceAll(' ', '')
+                let arr = [{ key: 'B', pow: 9 }, { key: 'M', pow: 6 }, { key: 'K', pow: 3 }]
+                let item = arr.find(item => str.endsWith(item.key))
+                if (item) {
+                    str = parseFloat(str.replaceAll(item.key, '')) * Math.pow(10, item.pow) || 0
+                }
                 return parseInt(str)
             })
         if (!name || name == 'unknown') {
@@ -112,7 +126,7 @@ async function getAllStart(page = 1) {
 
 async function downloadStars(stars) {
     for (const star of stars) {
-        let path = './stars' + star.path.split('/').slice(0, 2).join('/')
+        let path = './data/pornstars' + star.path.split('/').slice(0, 2).join('/')
         let name = star.name + '.' + star.imgSrc.split('.').pop()
         console.log('downloadStar1', path, name)
         let res = await downloadFile(star.imgSrc, path, name, 1000)
@@ -147,21 +161,47 @@ async function downloadFile(url, path, name, timeout) {
     }
 }
 
+
+
 async function saveStar(star, Star, key) {
-    const kitty = new Star(star);
-    let data = await Star.findOne({ [key]: star[key] })
-    if (data) {
-        let res = await kitty.update({ [key]: star[key] })
-        console.log('saveStar2', star.name)
-    } else {
-        let res = await kitty.save();
-        console.log('saveStar1', star.name)
-    }
+
 }
 async function saveStars(stars) {
-    mongoose.connect(config.mongodbUrl);
-    for (const star of stars) {
-        await saveStar(star, Star, 'name')
-    }
+    let path = './data/pornstars/pornstars.txt'
+    let dataSource = {}
+    stars.reduce((item1, item2)=>{
+        item1[item2.name] = {...item2}
+        delete item1[item2.name].name
+        delete item1[item2.name].imgSrc
+        return item1
+    }, dataSource)
+
+    try {
+        dataSource = {...JSON.parse(unzip(fs.readFileSync(path))), ...dataSource}
+    } catch (error) { }
+
+    dataSourceStr = zip(dataSource)
+    fs.writeFileSync(path, dataSourceStr)
 }
+
+
+
+
+// async function saveStar(star, Star, key) {
+//     const kitty = new Star(star);
+//     let data = await Star.findOne({ [key]: star[key] })
+//     if (data) {
+//         let res = await kitty.update({ [key]: star[key] })
+//         console.log('saveStar2', star.name)
+//     } else {
+//         let res = await kitty.save();
+//         console.log('saveStar1', star.name)
+//     }
+// }
+// async function saveStars(stars) {
+//     mongoose.connect(config.mongodbUrl);
+//     for (const star of stars) {
+//         await saveStar(star, Star, 'name')
+//     }
+// }
 
