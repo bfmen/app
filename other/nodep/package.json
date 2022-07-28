@@ -13,6 +13,7 @@
     "cheerio": "^1.0.0-rc.11",
     "fluent-ffmpeg": "^2.1.2",
     "mongoose": "^6.4.0",
+    "node-fetch": "2",
     "nodemon": "^2.0.16",
     "pako": "^2.0.4",
     "request": "^2.88.2",

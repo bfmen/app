@@ -6,7 +6,7 @@ let instance = axios.create({
 Object.assign(instance.defaults.headers.common, config.headers)
 // 请求拦截器
 instance.interceptors.request.use(req => {
-    // req.headers = { ...config.headers, ...req.headers }
+    req.headers = { ...config.headers, ...req.headers }
     // console.log('request', req)
     return req
 }, err => { });

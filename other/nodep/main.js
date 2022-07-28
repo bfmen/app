@@ -12,6 +12,7 @@ async function start() {
     // let error = await downLoadForViewkey('ph62251209de802')
     // console.log('error', error)
     await require('./getDetail')()
+    await require('./getStartImg')()
 }
 
 async function downLoadForViewkey(viewkey) {

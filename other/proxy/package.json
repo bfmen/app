@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "yarn throttle-proxy"
+  },
   "dependencies": {
     "throttle-proxy": "^2.3.1"
   }
