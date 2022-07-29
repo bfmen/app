@@ -4,35 +4,33 @@ const axios = require('./axios');
 const config = require('./config')
 const { zip, unzip } = require('./zip.js');
 const cheerio = require('cheerio');
-const fetch = require('node-fetch')
+const fileList = './data/pornstars/list.txt'
+const maxPage = 100
+const params = ['o=tr&t=a', 'o=mv&t=a', 'o=mv&t=a&cc=jp']
+let dataSource = {}
 
 async function run() {
-    let dataSource = getDataSource()
-    let dataSources = Object.keys(dataSource).reduce((item1, key) => {
-        item1.push({ ...dataSource[key], name: key })
-        return item1
-    }, []).sort((i, j) => j.times - i.times)
-    console.log(dataSources.map(item => item.times).slice(0, 10))
-    for (const key in dataSources) {
-        await start(dataSources[key])
+    for (const param of params) {
+        await start(param)
     }
+    saveList()
 }
 
-async function start(star, page = 1) {
-    if (page > 5) {
+async function start(param, page = 1) {
+    if (page > maxPage) {
         return
     }
-    console.log('start', star.path, page)
-    let url = config.urlCn + `${star.path}?page=${page}`
+    console.log('start', page, param)
+    let url = config.urlCn + `/video?${param}&page=${page}`
     let res = (await axios({
         url
     }))
-    
+
     if (res && res.data) {
         let data = res.data
-        // fs.writeFileSync('./data/pornstars/detail.html', data)
+        fs.writeFileSync('./data/pornstars/list.html', data)
         const $ = cheerio.load(data);
-        let pcVideoListItems = [...$('.pcVideoListItem')]
+        let pcVideoListItems = [...$('#videoCategory .pcVideoListItem')]
         let list = pcVideoListItems.map(element => {
             let id = element.attribs['data-id']
             let vkey = element.attribs['data-video-vkey']
@@ -49,34 +47,33 @@ async function start(star, page = 1) {
             try { user = cheerio.load(element)('.usernameWrap a')[0].attribs['href'] } catch (error) { }
             return { id, vkey, title, src, webm, duration, thumbnail, views, rating, added, user }
         })
-        saveDetail(list)
-        // let test2 = list.filter(item=>item.user.split('/').pop()==star.path.split('/').pop())
-        // console.log('test2', test2.length)
+        list.reduce((item1, item2) => {
+            item1[item2.id] = { ...item2 }
+            delete item1[item2.id].id
+            return item1
+        }, dataSource)
+        if (Object.keys(dataSource).length > 1000) saveList(list)
         if (list.length < 10) {
             return
         } else {
-            await start(star, ++page)
+            await start(param, ++page)
         }
 
     } else {
-        await start(star, ++page)
+        await start(param, ++page)
     }
 }
 
-async function saveDetail(list) {
-    let path = './data/pornstars/detail.txt'
-    let dataSource = {}
+async function saveList() {
+    console.log('saveList1', Object.keys(dataSource).length)
+    let path = fileList
     try {
-        dataSource = {...JSON.parse(unzip(fs.readFileSync(path))), ...dataSource}
+        dataSource = { ...JSON.parse(unzip(fs.readFileSync(path))), ...dataSource }
     } catch (error) { }
-    list.reduce((item1, item2)=>{
-        item1[item2.id] = {...item2}
-        delete item1[item2.id].id
-        return item1
-    }, dataSource)
-    console.log('saveDetail', Object.keys(dataSource).length)
+    console.log('saveList2', Object.keys(dataSource).length)
     dataSourceStr = zip(dataSource)
     fs.writeFileSync(path, dataSourceStr)
+    dataSource = {}
 }
 
 
@@ -89,12 +86,4 @@ function formatNumber(str) {
     return parseInt(str)
 }
 
-function getDataSource() {
-    let path = './data/pornstars/pornstars.txt'
-    let dataSource = {}
-    try { dataSource = { ...JSON.parse(unzip(fs.readFileSync(path))), ...dataSource } } catch (error) { }
-    return dataSource
-}
-
 module.exports = run
-

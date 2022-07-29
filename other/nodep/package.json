@@ -6,13 +6,16 @@
   "scripts": {
     "dev": "nodemon main.js",
     "dev2": "nodemon dlMovie.js",
-    "start": "sudo bt start & npx throttle-proxy"
+    "start": "sudo bt start & npx throttle-proxy",
+    "pub:only": "yarn netlify deploy --prod --dir=data",
+    "pub": "node main.js; npm run pub:only"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.11",
     "fluent-ffmpeg": "^2.1.2",
     "mongoose": "^6.4.0",
+    "netlify-cli": "^10.7.0",
     "node-fetch": "2",
     "nodemon": "^2.0.16",
     "pako": "^2.0.4",

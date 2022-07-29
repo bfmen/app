@@ -8,11 +8,16 @@ const { zip, unzip } = require('./zip.js');
 start()
 
 async function start() {
+    fs.mkdir('./data/pornstars/img', { recursive: true }, ()=>{})
+    fs.mkdir('./data/pornstars/webm', { recursive: true }, ()=>{})
+    // fs.mkdir('./data/pornstars/webg', { recursive: true }, ()=>{})
     // await getAllStart()
     // let error = await downLoadForViewkey('ph62251209de802')
     // console.log('error', error)
-    await require('./getDetail')()
-    await require('./getStartImg')()
+    // await require('./getDetail')()
+    // await require('./getStartImg')()
+    // await require('./getList')()
+    await require('./getListData')()
 }
 
 async function downLoadForViewkey(viewkey) {
@@ -71,7 +76,7 @@ async function downLoadForViewkey(viewkey) {
 
 
 async function getAllStart(page = 1) {
-    if (page > 10) {
+    if (page > 5) {
         return
     }
     let url = config.url + '/pornstars'

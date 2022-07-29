@@ -9,19 +9,24 @@ async function run() {
         let url = item.src
         if (url) {
             let path = `./data/pornstars/img/${id}.${url.split('.').pop()}`
-            try {
-                let res = await axios({
-                    url: url,
-                    responseType: 'arraybuffer'
-                })
-                let data = res.data
-                if (data) {
-                    fs.writeFileSync(path, data, 'binary')
-                } else {
-                    console.log('error1', res)
+            if (!fs.existsSync(path)) {
+                console.log('download', id)
+                try {
+                    let res = await axios({
+                        url: url,
+                        responseType: 'arraybuffer'
+                    })
+                    let data = res.data
+                    if (data) {
+                        fs.writeFileSync(path, data, 'binary')
+                    } else {
+                        console.log('error1', res)
+                    }
+                } catch (error) {
+                    console.log('error2', error.code, error.message)
                 }
-            } catch (error) {
-                console.log('error2', error.code, error.message)
+            }else{
+                console.log('download jump', id)
             }
         }
     }
