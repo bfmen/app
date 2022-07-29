@@ -2,7 +2,12 @@ const cacheName = 'cacheName'
 
 function isCache1(event) {
 	let url = event.request.url
-	return ['.jpg', 'the-awesome-smanx-site.netlify.app/coverpic'].some(include => url.includes(include))
+	return [
+		'.jpg', 
+		'the-awesome-smanx-site.netlify.app/coverpic',
+		'/pornstars/img',
+		'/pornstars/webm'
+	].some(include => url.includes(include))
 }
 
 function isCache2(event) {
