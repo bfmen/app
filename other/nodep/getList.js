@@ -5,7 +5,7 @@ const config = require('./config')
 const { zip, unzip } = require('./zip.js');
 const cheerio = require('cheerio');
 const fileList = './data/pornstars/list.txt'
-const maxPage = 100
+const maxPage = 10
 const params = ['o=tr&t=a', 'o=mv&t=a', 'o=mv&t=a&cc=jp']
 let dataSource = {}
 
@@ -52,7 +52,11 @@ async function start(param, page = 1) {
             delete item1[item2.id].id
             return item1
         }, dataSource)
-        if (Object.keys(dataSource).length > 1000) saveList(list)
+        if (Object.keys(dataSource).length > 1000) {
+
+        }
+        await require('./getListData')(dataSource)
+        saveList()
         if (list.length < 10) {
             return
         } else {

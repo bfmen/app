@@ -2,8 +2,8 @@ const fs = require('fs')
 const axios = require('axios')
 const { zip, unzip } = require('./zip.js');
 const fileList = './data/pornstars/list.txt'
-async function run() {
-    let dataSource = getList()
+async function run(list) {
+    let dataSource = list || getList()
     let ids = Object.keys(dataSource)
     for (let i = 0 ; i < ids.length ; i++) {
         console.log('start', `${i}/${ids.length}`, i / ids.length)
