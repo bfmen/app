@@ -37,5 +37,5 @@ module.exports = {
         "cookie": "atatusScript=hide; platform=pc; bs=43e771eeo4ynif60haayleetqzigvp63; ss=311173613499754232; fg_568e4786bc5d52ecadad43e36747ddff=54793.100000; fg_fcf2e67d6468e8e1072596aead761f2b=17495.100000; fg_ee26b76392ae0c54fbcf7c635e3da0fa=44461.100000; _ga=GA1.2.1659798065.1658526002; d_fs=1; d_uidb=ebe21358-ee08-a03e-0aab-6fbc005c39f4; d_uid=ebe21358-ee08-a03e-0aab-6fbc005c39f4; ua=775d4ad280f6ff95d954da059041d094; _gid=GA1.2.1109547503.1658963521"
     },
     mongodbUrl: 'mongodb://localhost/p',
-    filePath: '/tmp/pfiles'
+    filePath: './data/pornstars/pfiles'
 }
