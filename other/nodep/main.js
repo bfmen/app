@@ -16,7 +16,8 @@ async function start() {
     // console.log('error', error)
     // await require('./getDetail')()
     // await require('./getStartImg')()
-    await require('./getList')()
+    // await require('./getList')()
+    await require('./getListV')()
     
 }
 

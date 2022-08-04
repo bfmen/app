@@ -46,7 +46,7 @@
          return;
        }
  
-       console.log('=========================', this.M3U8_FILE, this.OUTPUT_FILE);
+      //  console.log('=========================', this.M3U8_FILE, this.OUTPUT_FILE);
  
        ffmpeg(this.M3U8_FILE)
          .on("error", error => {
