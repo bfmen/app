@@ -2,6 +2,7 @@ const protocol = 'https:'
 const host = '6jwti3892pf605m004mn.lagoapps.com'
 const origin = protocol + '//' + host
 const rootPath = '/Volumes/TOSHIBA_EXT/backups/SuperTime/Windows8/banana'
+const rootPathDeploy = './dist_deploy'
 const query = {
 	device: 'iPhone 7 13.4 1.0',
 	s_device_id: '374B5729-7F3F-4C8F-B6DE-80FF0A333633',
@@ -16,7 +17,8 @@ module.exports = {
 	home: origin + '/index',
 	query: () => ({ ...query, _t: new Date().valueOf(), s_device_id: query.s_device_id + '-' + new Date().valueOf() + '-' + Math.random().toString().slice(2, 8) }),
 	// query: () => ({ ...query }),
-	dataSourceTxtName: 'dist_deploy/dataSource.txt',
+    rootPathDeploy,
+	dataSourceTxtName: rootPathDeploy + '/dataSource.txt',
     bananaBomb: {
         id: '485e433c1e8b44184301535373a70955',
         key: '4fd8c4a1862cc2bbac1ccbc13c853dc8',

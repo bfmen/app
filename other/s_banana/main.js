@@ -14,6 +14,7 @@ let dataSourceTxtName = config.dataSourceTxtName
 start()
 
 async function start() {
+    if (!fs.existsSync(config.rootPathDeploy)) fs.mkdirSync(config.rootPathDeploy)
     let data = await getDataSource()
     dataSourceStr = data ? unzip(data) : '{}'
     dataSource = JSON.parse(dataSourceStr)

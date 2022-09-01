@@ -11,10 +11,12 @@
     "dev5": "nodemon ",
     "build": "node main",
     "pub:only": "yarn netlify deploy --prod --dir=dist_deploy",
-    "pub": "npm run build; npm run pub:only"
+    "pub": "npm run build; npm run pub:only",
+    "build-s_banana": "esbuild main.js --bundle --outfile=./dist/s_banana.js --platform=node"
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "esbuild": "^0.15.6",
     "netlify-cli": "^10.7.0",
     "nodemon": "^2.0.16",
     "pako": "^2.0.4",
