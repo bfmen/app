@@ -18,7 +18,7 @@ async function start() {
     // await require('./getStartImg')()
     // await require('./getList')()
     await require('./getListV')()
-    
+    // await require('./readFileList')()
 }
 
 async function downLoadForViewkey(viewkey) {

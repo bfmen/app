@@ -34,6 +34,7 @@ async function downloadFile(item) {
     console.log(viewkey)
     let url = config.view_video + '?viewkey=' + viewkey
     url = config.url + `/embed/${viewkey}`
+    url = 'https://cn.pornhub.com/view_video.php?viewkey=ph62c575b8af98f'
     let res = (await axios({ url }))
     data = res.data
     fs.writeFileSync('./data/pornstars/detail.html', data)
