@@ -1,4 +1,4 @@
-import{c as _}from"./config.b0b2fcdf.js";import{n as zt}from"./index.bc0c51cd.js";/*!
+import{c as _}from"./config.b0b2fcdf.js";import{n as zt}from"./index.a324c402.js";/*!
  * better-scroll / better-scroll
  * (c) 2016-2021 ustbhuangyi
  * Released under the MIT License.
