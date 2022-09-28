@@ -35,8 +35,23 @@ async function downloadFile(item) {
     let url = config.view_video + '?viewkey=' + viewkey
     url = config.url + `/embed/${viewkey}`
     url = 'https://cn.pornhub.com/view_video.php?viewkey=ph62c575b8af98f'
-    let res = (await axios({ url }))
+    url = 'https://spectacular-youtiao-f4e424.netlify.app/api/proxy?uuu=' + url
+    let res = (await axios({
+        url, params: {
+            compress: ''
+        },
+        // responseType: "arraybuffer", // 关键步骤
+        // responseEncoding: "utf8",
+    }))
     data = res.data
+    // let utf8decoder = new TextDecoder("GBK"); // 关键步骤
+    // data = utf8decoder.decode(data);
+    // if (typeof data === 'string'){
+    //     data = JSON.parse(data)
+    // } 
+    if (data.compress) {
+        data = unzip(data.data)
+    }
     fs.writeFileSync('./data/pornstars/detail.html', data)
     const $ = cheerio.load(data);
     let title = $('title').text()

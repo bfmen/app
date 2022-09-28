@@ -1,9 +1,7 @@
-const mongoose = require('mongoose');
 const cheerio = require('cheerio');
 const fs = require('fs');
 const axios = require('./axios');
 const config = require('./config')
-// const Star = mongoose.model('star', require('./schema/star.schema.js'));
 const { zip, unzip } = require('./zip.js');
 start()
 
