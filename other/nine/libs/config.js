@@ -9,7 +9,7 @@ const query = {
 	s_platform: 'ios',
 	_t: '1587401036000'
 }
-const deployDir = 'nine/dist_deploy'
+const deployDir = 'dist_deploy'
 module.exports = {
 	protocol,
 	host,

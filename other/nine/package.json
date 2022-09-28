@@ -4,8 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pub": "yarn netlify deploy --prod --dir=dist_deploy"
+    "dev": "nodemon main.js",
+    "build": "node main.js",
+    "pub": "yarn netlify deploy --prod --dir=dist_deploy",
+    "update": "yarn build && yarn pub"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12",
+    "pako": "^2.0.4"
+  }
 }
