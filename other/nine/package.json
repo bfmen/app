@@ -1,0 +1,11 @@
+{
+  "name": "express-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pub": "yarn netlify deploy --prod --dir=dist_deploy"
+  },
+  "author": "",
+  "license": "ISC"
+}

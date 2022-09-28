@@ -10,3 +10,4 @@ other/s_banana/dist_deploy/coverpic
 other/s_banana/data
 # Local Netlify folder
 .netlify
+dataSource*.txt
