@@ -1,1 +1,0 @@
-import{i as a}from"./index.b59bc891.js";import{n as s}from"./index.3fdc9f43.js";var o=function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",[t._v("star")])},_=[];const c={async created(){let t=await a();format(t.data)}},n={};var i=s(c,o,_,!1,l,null,null,null);function l(t){for(let e in n)this[e]=n[e]}var f=function(){return i.exports}();export{f as default};
