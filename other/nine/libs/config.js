@@ -1,5 +1,6 @@
 const protocol = 'https:'
 const host = 'f0727.wonderfulday29.live'
+// 0831.91p51.live
 const origin = protocol + '//' + host
 const rootPath = '/Volumes/TOSHIBA_EXT/backups/SuperTime/Windows8/banana'
 const query = {
@@ -10,6 +11,7 @@ const query = {
 	_t: '1587401036000'
 }
 const deployDir = 'dist_deploy'
+// const deployDir = '/media/TOSHIBA_EXT/backups/SuperTime/Windows8/91'
 const config = {
 	protocol,
 	host,
