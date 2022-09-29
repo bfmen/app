@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon main.js",
+    "dev:list": "nodemon main.js list",
+    "dev:video": "nodemon main.js video",
     "build": "node main.js",
+    "build:list": "node main.js list",
+    "build:video": "node main.js video",
     "pub": "yarn netlify deploy --prod --dir=dist_deploy",
     "update": "yarn build && yarn pub"
   },

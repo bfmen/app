@@ -3,30 +3,41 @@ import fs from 'fs'
 import config from './libs/config.js'
 import utils from './libs/utils.js'
 const LIST = []
+let END = false
 export default async () => {
     let dataSource = await utils.file.getDataSource(config.dataSourceTxtName)
-    let lengthSource = Object.keys(dataSource).length
-    for (const key in dataSource) {
-        await run(dataSource, key, lengthSource)
+    let dataSourceKeys = Object.keys(dataSource)
+    let lengthSource = dataSourceKeys.length
+    for (let indexSource = 0; indexSource < dataSourceKeys.length; indexSource++) {
+        if (END) return
+        let key = dataSourceKeys[indexSource]
+        await run()
         let index = LIST.length
-        LIST.push(downloadOne(dataSource, key, lengthSource).then(() => {
+        LIST.push(downloadOne(dataSource, key, lengthSource, indexSource).then(() => {
             LIST.splice(index, 1, 'ok')
-        }).catch(() => {
+        }).catch((err) => {
+            console.log('downloadOne error', `${indexSource}/${lengthSource}`, err)
             LIST.splice(index, 1, 'error')
         }))
     }
 }
 
-async function run(dataSource, key, lengthSource) {
+async function run() {
     let loading = LIST.filter(item => item instanceof Promise)
-    if (loading.length >= config.line) {
+    let errors = LIST.filter(item => item == 'error')
+    if (errors.length >= config.line * 2) {
+        console.log('错误过多', errors.length, '停止')
+        END = true
+    } else if (errors.length >= config.line) {
+        console.log('错误太多', errors.length, '休息10s')
+        await new Promise(res => setTimeout(res, 10000))
+    } else if (loading.length >= config.line) {
         await new Promise(res => setTimeout(res, 1000))
         await run()
     }
 }
 
-async function downloadOne(dataSource, key, lengthSource) {
-    let indexSource = Object.keys(dataSource).indexOf(key)
+async function downloadOne(dataSource, key, lengthSource, indexSource) {
     let path = config.videoPath + '/' + key
     fs.mkdirSync(path, { recursive: true }, () => { })
     let item = dataSource[key]
@@ -42,7 +53,7 @@ async function downloadOne(dataSource, key, lengthSource) {
     }
     // 处理detail
     let detail = item.detail
-    if (!detail) {
+    if (!detail || !detail.src) {
         detail = utils.format.detail((await axios(item.href)).data).detail
         item.detail = detail
         await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
@@ -61,7 +72,8 @@ async function downloadOne(dataSource, key, lengthSource) {
     // download
     let list = strM3U8.split('\n#').filter(item => item.startsWith('EXTINF:')).map(item => item.split(',\n')[1])
     let lengthList = Object.keys(list).length
-    for (const name of list) {
+    for (let i = 0; i < lengthList; i++) {
+        let name = list[i]
         let indexList = Object.values(list).indexOf(name)
         let url = arr.join('/') + '/' + name
         let nameTS = path + '/' + url.split('/').pop()

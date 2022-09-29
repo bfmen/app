@@ -80,7 +80,11 @@ let utils = {
     getDataSource: async (name) => {
       return await new Promise((resolve, reject) => {
         fs.readFile(name, function (err, data) {
-          resolve(JSON.parse(data ? unzip(data) : '{}'))
+          try {
+            resolve(JSON.parse(data ? unzip(data) : '{}'))
+          } catch (error) {
+            resolve({})
+          }
         });
       })
     },

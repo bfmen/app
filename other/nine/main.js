@@ -3,6 +3,7 @@ import axios from 'axios'
 import config from './libs/config.js'
 import utils from './libs/utils.js'
 import down from './down.js'
+const argv2 = process.argv[2]
 
 // axios.defaults.headers.common['accept-language'] = 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
 let dataSourceStr = ''
@@ -19,9 +20,11 @@ async function start() {
     dataSource = await utils.file.getDataSource(dataSourceTxtName)
     console.log("初始", Object.keys(dataSource).length)
     console.log('start loadData')
-    // await loadData(1)
-    await down()
+    if (!argv2 || argv2 === 'list') await loadData(1)
     console.log('end loadData')
+    if (!argv2 || argv2 === 'video') await down()
+    console.log('end down')
+    console.log('end')
 }
 
 async function loadData(page) {
