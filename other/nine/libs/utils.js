@@ -90,6 +90,7 @@ let utils = {
     },
     saveDataSource: async (dataSourceTxtName, dataSource) => {
       let dataSourceStr = zip(dataSource)
+      // dataSourceStr =  JSON.stringify(dataSource)
       return await new Promise((resolve, reject) => {
         fs.writeFile(dataSourceTxtName, dataSourceStr, (err) => {
           if (err) {
