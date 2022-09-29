@@ -2,6 +2,7 @@ import fs from 'fs'
 import axios from 'axios'
 import config from './libs/config.js'
 import utils from './libs/utils.js'
+import down from './down.js'
 
 // axios.defaults.headers.common['accept-language'] = 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
 let dataSourceStr = ''
@@ -18,7 +19,8 @@ async function start() {
     dataSource = await utils.file.getDataSource(dataSourceTxtName)
     console.log("初始", Object.keys(dataSource).length)
     console.log('start loadData')
-    await loadData(1)
+    // await loadData(1)
+    await down()
     console.log('end loadData')
 }
 
@@ -58,7 +60,7 @@ function saveData(data) {
         } else {
             addNum++
         }
-        dataSource[item.viewkey] = item
+        dataSource[item.viewkey] = {...dataSource[item.viewkey], ...item}
     });
     console.log('saveData', 'add', addNum, 'update', upNum)
     return upNum == 24

@@ -11,3 +11,4 @@ other/s_banana/data
 # Local Netlify folder
 .netlify
 dataSource*.txt
+video/

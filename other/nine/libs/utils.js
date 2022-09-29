@@ -10,7 +10,7 @@ let utils = {
     detail(data) {
       let detail = {}
       try {
-        let strencode = decodeURIComponent(data.split('strencode2(')[1].split(')')[0].replaceAll('"', ''))
+        let strencode = decodeURIComponent(data.split('strencode2(')[1].split(')')[0].replace(/\"/g, ''))
         detail.src = cheerio.load(strencode)('source')[0].attribs.src
       } catch (error) { }
       const $ = cheerio.load(data);
@@ -74,6 +74,9 @@ let utils = {
     }
   },
   file: {
+    mkdir: (path) => {
+      fs.mkdirSync(path, { recursive: true }, () => { })
+    },
     getDataSource: async (name) => {
       return await new Promise((resolve, reject) => {
         fs.readFile(name, function (err, data) {
@@ -84,14 +87,14 @@ let utils = {
     saveDataSource: async (dataSourceTxtName, dataSource) => {
       let dataSourceStr = zip(dataSource)
       return await new Promise((resolve, reject) => {
-          fs.writeFile(dataSourceTxtName, dataSourceStr, (err) => {
-              if (err) {
-                  console.log('写入错误', err);
-                  reject(err)
-              }
-              console.log("写入成功", Object.keys(dataSource).length, '压缩比例', dataSourceStr.length / JSON.stringify(dataSource).length)
-              resolve()
-          })
+        fs.writeFile(dataSourceTxtName, dataSourceStr, (err) => {
+          if (err) {
+            console.log('写入错误', err);
+            reject(err)
+          }
+          console.log("写入成功", Object.keys(dataSource).length, '压缩比例', dataSourceStr.length / JSON.stringify(dataSource).length)
+          resolve()
+        })
       })
     },
   }
@@ -130,7 +133,7 @@ function html_decode(str) {
 }
 
 export function unzip(bufferData) {
-  let str= bufferData.toString()
+  let str = bufferData.toString()
   let asdsa = stringToUint8Array(str)
   return bufferData ? pako.ungzip(stringToUint8Array(str), { to: 'string' }) : ''
 }
@@ -138,7 +141,7 @@ export function unzip(bufferData) {
 // 加密
 export function zip(str) {
   if (typeof str !== 'string') {
-      str = JSON.stringify(str)
+    str = JSON.stringify(str)
   }
   const binaryString = pako.gzip(str)
   return Uint8ArrayToString(binaryString)
@@ -152,7 +155,7 @@ export function zip(str) {
 function Uint8ArrayToString(fileData) {
   var dataString = "";
   for (var i = 0; i < fileData.length; i++) {
-      dataString += String.fromCharCode(fileData[i]);
+    dataString += String.fromCharCode(fileData[i]);
   }
 
   return dataString
@@ -163,7 +166,7 @@ function Uint8ArrayToString(fileData) {
 function stringToUint8Array(str) {
   var arr = [];
   for (var i = 0, j = str.length; i < j; ++i) {
-      arr.push(str.charCodeAt(i));
+    arr.push(str.charCodeAt(i));
   }
 
   var tmpUint8Array = new Uint8Array(arr);
