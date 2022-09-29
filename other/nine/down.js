@@ -27,7 +27,7 @@ async function run() {
     let errors = LIST.filter(item => item == 'error')
     if (errors.length >= config.line * 2) {
         if (loading.length) {
-            console.log('错误过多', errors.length, '等待10s')
+            console.log('错误过多', errors.length, loading.length, '等待10s')
             await new Promise(res => setTimeout(res, 10000))
             await run()
         } else {

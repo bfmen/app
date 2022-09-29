@@ -28,8 +28,8 @@ async function start() {
 }
 
 async function loadData(page) {
-    console.log('loadData1', page, '页')
     const url = config.origin + `/v.php?category=rf&viewtype=basic&page=${page}`;
+    console.log('loadData1', page, '页', url)
     try {
         let res = await axios({ url })
         if (res && res.data) {
@@ -48,7 +48,7 @@ async function loadData(page) {
             await loadData(page)
         }
     } catch (error) {
-        console.log('网络错误, 再来', error.code, error)
+        console.log('网络错误, 再来', error.code, error.message, url)
         await new Promise(res => setTimeout(res, 1000))
         await loadData(page)
     }
