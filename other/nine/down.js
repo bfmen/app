@@ -49,10 +49,14 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
     // 处理detail
     let detail = item.detail
     if (!detail || !detail.src) {
-        detail = utils.format.detail((await axios(item.href)).data).detail
+        let data = (await axios(item.href)).data
+        detail = utils.format.detail(data).detail
         item.detail = detail
         if (detail.src) {
             await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
+        } else {
+            fs.writeFileSync(path + '/' + 'detial_error.html', data)
+            console.log('写入detial_error.html', path)
         }
     }
     fs.mkdirSync(path, { recursive: true }, () => { })
