@@ -9,6 +9,7 @@ other/nodep/data
 other/s_banana/dist_deploy/coverpic
 other/s_banana/data
 # Local Netlify folder
+dingtalk-pierced-client
 .netlify
 dataSource*.txt
 video/
