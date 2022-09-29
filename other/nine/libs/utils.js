@@ -1,4 +1,4 @@
-const cheerio = require('cheerio')
+import cheerio from 'cheerio'
 let utils = {
   format: {
     all: function (data) {
@@ -105,4 +105,5 @@ function html_decode(str) {
   return s;
 }
 
-module.exports = utils
+export default utils
+// module.exports = utils

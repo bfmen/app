@@ -1,15 +1,14 @@
 // 导入pako
-const pako = require('pako')
-
+import pako from 'pako'
 // b64Data-->传入加密的数据进行解密
-function unzip(bufferData) {
+export function unzip(bufferData) {
     let str= bufferData.toString()
     let asdsa = stringToUint8Array(str)
     return bufferData ? pako.ungzip(stringToUint8Array(str), { to: 'string' }) : ''
 }
 
 // 加密
-function zip(str) {
+export function zip(str) {
     if (typeof str !== 'string') {
         str = JSON.stringify(str)
     }
@@ -17,10 +16,10 @@ function zip(str) {
     return Uint8ArrayToString(binaryString)
 }
 
-module.exports = {
-    unzip,
-    zip
-}
+// module.exports = {
+//     unzip,
+//     zip
+// }
 
 function Uint8ArrayToString(fileData) {
     var dataString = "";

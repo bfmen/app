@@ -10,7 +10,7 @@ const query = {
 	_t: '1587401036000'
 }
 const deployDir = 'dist_deploy'
-module.exports = {
+const config = {
 	protocol,
 	host,
 	origin,
@@ -49,4 +49,5 @@ module.exports = {
         }
     }
 }
-
+export default config
+// module.exports = config

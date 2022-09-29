@@ -1,12 +1,16 @@
-const fs = require('fs');
-const config = require('./libs/config.js')
-const utils = require('./libs/utils.js')
-const axios = require('axios')
+import fs from 'fs'
+import axios from 'axios'
+import config from './libs/config.js'
+import utils from './libs/utils.js'
+
 // axios.defaults.headers.common['accept-language'] = 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
-const { zip, unzip } = require('./libs/zip.js');
+import { zip, unzip } from './libs/zip.js'
 let dataSourceStr = ''
 let dataSource = {}
 let dataSourceTxtName = config.dataSourceTxtName
+// import { LowSync, JSONFileSync } from 'lowdb'
+
+// const db = new LowSync(new JSONFileSync('file.json'))
 
 // yarn netlify login
 // yarn netlify deploy --prod --dir=dist_deploy
@@ -15,9 +19,7 @@ start()
 
 async function start() {
     fs.mkdir(config.deployDir, { recursive: true }, () => { })
-    let data = await getDataSource()
-    dataSourceStr = data ? unzip(data) : '{}'
-    dataSource = JSON.parse(dataSourceStr)
+    dataSource = await getDataSource()
     console.log("初始", Object.keys(dataSource).length)
     console.log('start loadData')
     await loadData(1)
@@ -27,7 +29,7 @@ async function start() {
 async function getDataSource() {
     return await new Promise((resolve, reject) => {
         fs.readFile(dataSourceTxtName, function (err, data) {
-            resolve(data)
+            resolve(JSON.parse(data ? unzip(data) : '{}'))
         });
     })
 }
