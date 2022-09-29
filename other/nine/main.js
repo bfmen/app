@@ -1,9 +1,10 @@
-const fs = require('fs');
-const config = require('./libs/config.js')
-const utils = require('./libs/utils.js')
-const axios = require('axios')
+import fs from 'fs'
+import axios from 'axios'
+import config from './libs/config.js'
+import utils from './libs/utils.js'
+import down from './down.js'
+
 // axios.defaults.headers.common['accept-language'] = 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
-const { zip, unzip } = require('./libs/zip.js');
 let dataSourceStr = ''
 let dataSource = {}
 let dataSourceTxtName = config.dataSourceTxtName
@@ -15,21 +16,12 @@ start()
 
 async function start() {
     fs.mkdir(config.deployDir, { recursive: true }, () => { })
-    let data = await getDataSource()
-    dataSourceStr = data ? unzip(data) : '{}'
-    dataSource = JSON.parse(dataSourceStr)
+    dataSource = await utils.file.getDataSource(dataSourceTxtName)
     console.log("初始", Object.keys(dataSource).length)
     console.log('start loadData')
-    await loadData(1)
+    // await loadData(1)
+    await down()
     console.log('end loadData')
-}
-
-async function getDataSource() {
-    return await new Promise((resolve, reject) => {
-        fs.readFile(dataSourceTxtName, function (err, data) {
-            resolve(data)
-        });
-    })
 }
 
 async function loadData(page) {
@@ -42,7 +34,7 @@ async function loadData(page) {
             let listV = obj.listV
             console.log('loadData2', `${page}/${obj.totalpage}`, listV.map(item => item.viewkey).join(','))
             let isCompleted = saveData(listV)
-            await saveFile()
+            await utils.file.saveDataSource(dataSourceTxtName, dataSource)
             if (listV.length == 0 || obj.totalpage <= page) {
                 console.log('结束24', `${page}/${obj.totalpage}`)
             } else {
@@ -68,24 +60,10 @@ function saveData(data) {
         } else {
             addNum++
         }
-        dataSource[item.viewkey] = item
+        dataSource[item.viewkey] = {...dataSource[item.viewkey], ...item}
     });
     console.log('saveData', 'add', addNum, 'update', upNum)
     return upNum == 24
-}
-
-async function saveFile() {
-    let dataSourceStr = zip(dataSource)
-    await new Promise((resolve, reject) => {
-        fs.writeFile(dataSourceTxtName, dataSourceStr, (err) => {
-            if (err) {
-                console.log('写入错误', err);
-                reject(err)
-            }
-            console.log("写入成功", Object.keys(dataSource).length, '压缩比例', dataSourceStr.length / JSON.stringify(dataSource).length)
-            resolve()
-        })
-    })
 }
 
 
