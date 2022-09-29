@@ -16,7 +16,7 @@ export default async () => {
         LIST.push(downloadOne(dataSource, key, lengthSource, indexSource).then(() => {
             LIST.splice(index, 1, 'ok')
         }).catch((err) => {
-            console.log('downloadOne error', `${indexSource}/${lengthSource}`, err)
+            console.log('downloadOne error', `${indexSource}/${lengthSource}`, err.message)
             LIST.splice(index, 1, 'error')
         }))
     }
@@ -39,8 +39,17 @@ async function run() {
 
 async function downloadOne(dataSource, key, lengthSource, indexSource) {
     let path = config.videoPath + '/' + key
-    fs.mkdirSync(path, { recursive: true }, () => { })
     let item = dataSource[key]
+    // 处理detail
+    let detail = item.detail
+    if (!detail || !detail.src) {
+        detail = utils.format.detail((await axios(item.href)).data).detail
+        item.detail = detail
+        if (detail.src) {
+            await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
+        }
+    }
+    fs.mkdirSync(path, { recursive: true }, () => { })
     // 处理img
     let imgName = path + '/' + item.img.split('/').pop()
     if (!fs.existsSync(imgName)) {
@@ -50,13 +59,6 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
         })
         let data = res.data
         fs.writeFileSync(imgName, data, 'binary')
-    }
-    // 处理detail
-    let detail = item.detail
-    if (!detail || !detail.src) {
-        detail = utils.format.detail((await axios(item.href)).data).detail
-        item.detail = detail
-        await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
     }
     // 处理m3
     let arr = detail.src.split('/')
