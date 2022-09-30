@@ -19,7 +19,7 @@ const deployDir = (() => {
     } else if (os.hostname() == 'RT-N56U_B1') {
         deployDir = '/media/TOSHIBA_EXT/backups/SuperTime/Windows8/win11/91'
     }
-    return deployDir
+    return process.argv[3] == 'all' ? 'dist_deploy_all' : deployDir
 })()
 console.log('Hello', deployDir)
 const config = {
@@ -34,6 +34,7 @@ const config = {
     videoPath: deployDir + '/video',
     imgPath: deployDir + '/imgage',
     line: 20,
+    category: process.argv[3] == 'all' ? '' : '&category=rf&viewtype=basic',
     errorMax: 10000,
     bananaBomb: {
         id: '485e433c1e8b44184301535373a70955',

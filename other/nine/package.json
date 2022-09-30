@@ -10,6 +10,7 @@
     "dev:video": "nodemon main.js video",
     "start": "node main.js",
     "start:list": "node main.js list",
+    "start:list:all": "node main.js list all",
     "start:video": "node main.js video",
     "pub": "yarn netlify deploy --prod --dir=dist_deploy",
     "update": "yarn build && yarn pub"
