@@ -19,8 +19,9 @@ const deployDir = (() => {
     } else if (os.hostname() == 'RT-N56U_B1') {
         deployDir = '/media/TOSHIBA_EXT/backups/SuperTime/Windows8/win11/91'
     }
-    return process.argv[3] == 'all' ? 'dist_deploy_all' : deployDir
+    return deployDir
 })()
+const dataSourceTxtName = process.argv[3] == 'all' ? 'dataSourceNineAll.txt' : 'dataSourceNine.txt'
 console.log('Hello', deployDir)
 const config = {
     protocol,
@@ -30,7 +31,7 @@ const config = {
     query: () => ({ ...query, _t: new Date().valueOf(), s_device_id: query.s_device_id + '-' + new Date().valueOf() + '-' + Math.random().toString().slice(2, 8) }),
     // query: () => ({ ...query }),
     deployDir,
-    dataSourceTxtName: deployDir + '/dataSourceNine.txt',
+    dataSourceTxtName: deployDir + '/' + dataSourceTxtName,
     videoPath: deployDir + '/video',
     imgPath: deployDir + '/imgage',
     line: 20,
