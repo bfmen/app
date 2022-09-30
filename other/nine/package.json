@@ -13,7 +13,7 @@
     "start:list:all": "node main.js list all",
     "start:video": "node main.js video",
     "pub": "yarn netlify deploy --prod --dir=dist_deploy",
-    "update": "yarn build && yarn pub"
+    "update": "yarn start:list:all && yarn pub"
   },
   "author": "",
   "license": "ISC",
