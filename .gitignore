@@ -13,3 +13,4 @@ dingtalk-pierced-client
 .netlify
 dataSource*.txt
 video/
+video_error/

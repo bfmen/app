@@ -10,6 +10,7 @@
     "dev:video": "nodemon main.js video",
     "start": "node main.js",
     "start:list": "node main.js list",
+    "start:list:all": "node main.js list all",
     "start:video": "node main.js video",
     "pub": "yarn netlify deploy --prod --dir=dist_deploy",
     "update": "yarn build && yarn pub"
@@ -19,7 +20,6 @@
   "dependencies": {
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
-    "netlify-cli": "^12.0.0",
     "nodemon": "^2.0.20",
     "pako": "^2.0.4"
   }

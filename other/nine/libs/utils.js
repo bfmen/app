@@ -1,6 +1,7 @@
 import cheerio from 'cheerio'
 import pako from 'pako'
 import fs from 'fs'
+import path from 'path'
 let utils = {
   format: {
     all: function (data) {
@@ -83,6 +84,7 @@ let utils = {
           try {
             resolve(JSON.parse(data ? unzip(data) : '{}'))
           } catch (error) {
+            console.error('getDataSource error', error)
             resolve({})
           }
         });
@@ -90,6 +92,12 @@ let utils = {
     },
     saveDataSource: async (dataSourceTxtName, dataSource) => {
       let dataSourceStr = zip(dataSource)
+      // dataSourceStr = utils.trans.string2hex(dataSourceStr)
+      // dataSourceStr =  JSON.stringify(dataSource)
+      // fs.writeFileSync(dataSourceTxtName+'hexzip', utils.trans.string2hex(zip(dataSource)))
+      // fs.writeFileSync(dataSourceTxtName+'hex', utils.trans.string2hex(JSON.stringify(dataSource)))
+      // fs.writeFileSync(dataSourceTxtName+'base64zip', utils.trans.string2hex(zip(dataSource)))
+      // fs.writeFileSync(dataSourceTxtName+'base64', utils.trans.string2base64(JSON.stringify(dataSource)))
       return await new Promise((resolve, reject) => {
         fs.writeFile(dataSourceTxtName, dataSourceStr, (err) => {
           if (err) {
@@ -101,6 +109,40 @@ let utils = {
         })
       })
     },
+    getFiles(dir) {
+      if (!fs.existsSync(dir)) {
+        return []
+      }
+      const stat = fs.statSync(dir)
+      if (stat.isDirectory()) {
+        //判断是不是目录
+        const dirs = fs.readdirSync(dir)
+        return dirs.reduce((list, value) => {
+          // console.log('路径',path.resolve(dir,value));
+          list.push(...this.getFiles(path.join(dir, value)))
+          return list
+        }, [])
+      } else if (stat.isFile()) {
+        return [dir]
+      }
+    }
+  },
+  trans: {
+    string2base64: function (str) {
+      return new Buffer(str).toString('base64')
+    },
+    base642string: function (base6) {
+      return new Buffer(base6, 'base64').toString()
+    },
+    string2hex: function (str) {
+      return new Buffer(str, 'utf8').toString('hex')
+    },
+    hex2string: function (hex) {
+      return new Buffer(hex, 'hex').toString('utf8')
+    },
+    isHexStr: function (str) {
+      return /^[A-Fa-f0-9]{1,}$/.test(str)
+    }
   }
 }
 
@@ -176,6 +218,7 @@ function stringToUint8Array(str) {
   var tmpUint8Array = new Uint8Array(arr);
   return tmpUint8Array
 }
+
 
 export default utils
 // module.exports = utils
