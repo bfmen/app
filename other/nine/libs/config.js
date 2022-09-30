@@ -34,6 +34,7 @@ const config = {
     videoPath: deployDir + '/video',
     imgPath: deployDir + '/imgage',
     line: 5,
+    errorMax: 100,
     bananaBomb: {
         id: '485e433c1e8b44184301535373a70955',
         key: '4fd8c4a1862cc2bbac1ccbc13c853dc8',

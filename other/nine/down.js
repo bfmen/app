@@ -25,7 +25,7 @@ export default async () => {
 async function run() {
     let loading = LIST.filter(item => item instanceof Promise)
     let errors = LIST.filter(item => item == 'error')
-    if (errors.length >= config.line * 2) {
+    if (errors.length >= config.errorMax * 2) {
         if (loading.length) {
             console.log('错误过多', errors.length, loading.length, '等待10s')
             await new Promise(res => setTimeout(res, 10000))
@@ -34,10 +34,10 @@ async function run() {
             console.log('错误过多', errors.length, '停止')
             END = true
         }
-    } else if (errors.length >= config.line) {
+    } else if (errors.length >= config.errorMax) {
         console.log('错误太多', errors.length, '休息10s')
         await new Promise(res => setTimeout(res, 10000))
-    } else if (loading.length >= config.line) {
+    } else if (loading.length >= config.errorMax) {
         await new Promise(res => setTimeout(res, 1000))
         await run()
     }
@@ -57,8 +57,8 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
                 await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
             }
         } else {
-            fs.mkdirSync(path + '/error', { recursive: true }, () => { })
-            fs.writeFileSync(path + `/error/detial_${key}.html`, data)
+            fs.mkdirSync(deployDir + '/video_error', { recursive: true }, () => { })
+            fs.writeFileSync(deployDir + `/video_error/detial_${key}.html`, data)
             console.log(`写入detial_${key}.html`, path)
         }
     }
