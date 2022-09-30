@@ -16,15 +16,18 @@ export default async () => {
         LIST.push(downloadOne(dataSource, key, lengthSource, indexSource).then(() => {
             LIST.splice(index, 1, 'ok')
         }).catch((err) => {
-            console.log('downloadOne error', `${indexSource}/${lengthSource}`, err.message)
-            LIST.splice(index, 1, 'error')
+            console.log('downloadOne error', `${indexSource}/${lengthSource}`, err.message || err)
+            LIST.splice(index, 1, 'error' + err.message || err)
         }))
+        if (!config.deployDir.startsWith('/') && indexSource % 10 == 0) {
+            await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
+        }
     }
 }
 
 async function run() {
     let loading = LIST.filter(item => item instanceof Promise)
-    let errors = LIST.filter(item => item == 'error')
+    let errors = LIST.filter(item => item.includes && item.startsWith(error))
     if (errors.length >= config.errorMax * 2) {
         if (loading.length) {
             console.log('错误过多', errors.length, loading.length, '等待10s')
@@ -37,7 +40,7 @@ async function run() {
     } else if (errors.length >= config.errorMax) {
         console.log('错误太多', errors.length, '休息10s')
         await new Promise(res => setTimeout(res, 10000))
-    } else if (loading.length >= config.errorMax) {
+    } else if (loading.length >= config.line) {
         await new Promise(res => setTimeout(res, 1000))
         await run()
     }
@@ -53,13 +56,12 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
         detail = utils.format.detail(data).detail
         item.detail = detail
         if (detail.src) {
-            if (!config.deployDir.startsWith('/')) {
-                await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
-            }
+
         } else {
             fs.mkdirSync(config.deployDir + '/video_error', { recursive: true }, () => { })
             fs.writeFileSync(config.deployDir + `/video_error/detial_${key}.html`, data)
             console.log(`写入detial_${key}.html`, path)
+            throw `写入detial_${key}.html, 解析出错`
         }
     }
     // 处理img
