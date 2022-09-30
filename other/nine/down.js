@@ -70,17 +70,6 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
         }
 
     }
-    // 处理img
-    let imgName = path + '/' + item.img.split('/').pop()
-    if (!fs.existsSync(imgName)) {
-        let res = await axios({
-            url: item.img,
-            responseType: 'arraybuffer'
-        })
-        let data = res.data
-        fs.mkdirSync(path, { recursive: true }, () => { })
-        fs.writeFileSync(imgName, data, 'binary')
-    }
     // 处理m3
     let arr = detail.src.split('/')
     let nameM3U8 = path + '/' + arr.pop()
@@ -92,6 +81,17 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
         strM3U8 = res.data
         fs.mkdirSync(path, { recursive: true }, () => { })
         fs.writeFileSync(nameM3U8, strM3U8)
+    }
+    // 处理img
+    let imgName = path + '/' + item.img.split('/').pop()
+    if (!fs.existsSync(imgName)) {
+        let res = await axios({
+            url: item.img,
+            responseType: 'arraybuffer'
+        })
+        let data = res.data
+        fs.mkdirSync(path, { recursive: true }, () => { })
+        fs.writeFileSync(imgName, data, 'binary')
     }
     // download
     let list = strM3U8.split('\n#').filter(item => item.startsWith('EXTINF:')).map(item => item.split(',\n')[1])
