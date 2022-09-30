@@ -51,17 +51,24 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
     // 处理detail
     let detail = item.detail
     if (!detail || !detail.src) {
-        let data = (await axios(item.href)).data
-        detail = utils.format.detail(data).detail
-        item.detail = detail
-        if (detail.src) {
+        let pathDetail = config.deployDir + '/video_error'
+        let pathDetailName = pathDetail + `/detial_${key}.html`
+        if (!fs.existsSync(pathDetailName)) {
+            let data = (await axios(item.href)).data
+            detail = utils.format.detail(data).detail
+            item.detail = detail
+            if (detail.src) {
 
+            } else {
+                fs.mkdirSync(config.deployDir + '/video_error', { recursive: true }, () => { })
+                fs.writeFileSync(config.deployDir + `/video_error/detial_${key}.html`, data)
+                console.log(`解析出错${pathDetailName}`)
+                throw `error, 解析出错下载${pathDetailName}`
+            }
         } else {
-            fs.mkdirSync(config.deployDir + '/video_error', { recursive: true }, () => { })
-            fs.writeFileSync(config.deployDir + `/video_error/detial_${key}.html`, data)
-            console.log(`写入detial_${key}.html`, path)
-            throw `写入detial_${key}.html, 解析出错`
+            throw `error, 解析出错存在${pathDetailName}`
         }
+
     }
     // 处理img
     let imgName = path + '/' + item.img.split('/').pop()
