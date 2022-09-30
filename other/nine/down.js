@@ -57,9 +57,9 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
                 await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
             }
         } else {
-            fs.mkdirSync(path, { recursive: true }, () => { })
-            fs.writeFileSync(path + '/' + 'detial_error.html', data)
-            console.log('写入detial_error.html', path)
+            fs.mkdirSync(path + '/error', { recursive: true }, () => { })
+            fs.writeFileSync(path + `/error/detial_${key}.html`, data)
+            console.log(`写入detial_${key}.html`, path)
         }
     }
     // 处理img
