@@ -53,13 +53,15 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
         detail = utils.format.detail(data).detail
         item.detail = detail
         if (detail.src) {
-            await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
+            if (!config.deployDir.startsWith('/')) {
+                await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
+            }
         } else {
+            fs.mkdirSync(path, { recursive: true }, () => { })
             fs.writeFileSync(path + '/' + 'detial_error.html', data)
             console.log('写入detial_error.html', path)
         }
     }
-    fs.mkdirSync(path, { recursive: true }, () => { })
     // 处理img
     let imgName = path + '/' + item.img.split('/').pop()
     if (!fs.existsSync(imgName)) {
@@ -68,6 +70,7 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
             responseType: 'arraybuffer'
         })
         let data = res.data
+        fs.mkdirSync(path, { recursive: true }, () => { })
         fs.writeFileSync(imgName, data, 'binary')
     }
     // 处理m3
@@ -79,6 +82,7 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
     } else {
         let res = (await axios(detail.src))
         strM3U8 = res.data
+        fs.mkdirSync(path, { recursive: true }, () => { })
         fs.writeFileSync(nameM3U8, strM3U8)
     }
     // download
@@ -98,6 +102,7 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
                 })
                 let data = res.data
                 if (data) {
+                    fs.mkdirSync(path, { recursive: true }, () => { })
                     fs.writeFileSync(nameTS, data, 'binary')
                 } else {
                     console.log('error1', `${indexSource}/${lengthSource} ${indexList}/${lengthList}`, res)

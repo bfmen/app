@@ -93,6 +93,10 @@ let utils = {
       let dataSourceStr = zip(dataSource)
       // dataSourceStr = utils.trans.string2hex(dataSourceStr)
       // dataSourceStr =  JSON.stringify(dataSource)
+      // fs.writeFileSync(dataSourceTxtName+'hexzip', utils.trans.string2hex(zip(dataSource)))
+      // fs.writeFileSync(dataSourceTxtName+'hex', utils.trans.string2hex(JSON.stringify(dataSource)))
+      // fs.writeFileSync(dataSourceTxtName+'base64zip', utils.trans.string2hex(zip(dataSource)))
+      // fs.writeFileSync(dataSourceTxtName+'base64', utils.trans.string2base64(JSON.stringify(dataSource)))
       return await new Promise((resolve, reject) => {
         fs.writeFile(dataSourceTxtName, dataSourceStr, (err) => {
           if (err) {
