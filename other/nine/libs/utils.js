@@ -1,6 +1,7 @@
 import cheerio from 'cheerio'
 import pako from 'pako'
 import fs from 'fs'
+import path from 'path'
 let utils = {
   format: {
     all: function (data) {
@@ -108,6 +109,23 @@ let utils = {
         })
       })
     },
+    getFiles(dir) {
+      if (!fs.existsSync(dir)) {
+        return []
+      }
+      const stat = fs.statSync(dir)
+      if (stat.isDirectory()) {
+        //判断是不是目录
+        const dirs = fs.readdirSync(dir)
+        return dirs.reduce((list, value) => {
+          // console.log('路径',path.resolve(dir,value));
+          list.push(...this.getFiles(path.join(dir, value)))
+          return list
+        }, [])
+      } else if (stat.isFile()) {
+        return [dir]
+      }
+    }
   },
   trans: {
     string2base64: function (str) {

@@ -46,19 +46,20 @@ async function run() {
 }
 
 async function downloadOne(dataSource, key, lengthSource, indexSource) {
-    let path = config.videoPath + '/' + key
+    let basePath = config.videoPath + '/' + key
     let item = dataSource[key]
     // 处理detail
     let detail = item.detail
-    if (!detail || !detail.src) {
+    let fileList = utils.file.getFiles(basePath)
+    let filename = fileList.find(name => name.toLocaleLowerCase().endsWith('.m3u8'))
+    if ((!detail || !detail.src) && !filename) {
         let pathDetail = config.deployDir + '/video_error'
         let pathDetailName = pathDetail + `/detial_${key}.html`
         if (!fs.existsSync(pathDetailName)) {
             let data = (await axios(item.href)).data
             detail = utils.format.detail(data).detail
-            item.detail = detail
             if (detail.src) {
-
+                item.detail = detail
             } else {
                 fs.mkdirSync(config.deployDir + '/video_error', { recursive: true }, () => { })
                 fs.writeFileSync(config.deployDir + `/video_error/detial_${key}.html`, data)
@@ -72,25 +73,28 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
     }
     // 处理m3
     let arr = detail.src.split('/')
-    let nameM3U8 = path + '/' + arr.pop()
+    let nameM3U8 = basePath + '/' + arr.pop()
+    if (!nameM3U8.toLowerCase().endsWith('.m3u8')) {
+        throw `error, 文件后缀错误${pathDetailName}`
+    }
     let strM3U8 = ''
     if (fs.existsSync(nameM3U8)) {
         strM3U8 = fs.readFileSync(nameM3U8).toString()
     } else {
         let res = (await axios(detail.src))
         strM3U8 = res.data
-        fs.mkdirSync(path, { recursive: true }, () => { })
+        fs.mkdirSync(basePath, { recursive: true }, () => { })
         fs.writeFileSync(nameM3U8, strM3U8)
     }
     // 处理img
-    let imgName = path + '/' + item.img.split('/').pop()
+    let imgName = basePath + '/' + item.img.split('/').pop()
     if (!fs.existsSync(imgName)) {
         let res = await axios({
             url: item.img,
             responseType: 'arraybuffer'
         })
         let data = res.data
-        fs.mkdirSync(path, { recursive: true }, () => { })
+        fs.mkdirSync(basePath, { recursive: true }, () => { })
         fs.writeFileSync(imgName, data, 'binary')
     }
     // download
@@ -100,7 +104,7 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
         let name = list[i]
         let indexList = Object.values(list).indexOf(name)
         let url = arr.join('/') + '/' + name
-        let nameTS = path + '/' + url.split('/').pop()
+        let nameTS = basePath + '/' + url.split('/').pop()
         if (!fs.existsSync(nameTS)) {
             try {
                 console.log('下载开始', `${indexSource}/${lengthSource} ${indexList}/${lengthList}`, nameTS)
@@ -110,7 +114,7 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
                 })
                 let data = res.data
                 if (data) {
-                    fs.mkdirSync(path, { recursive: true }, () => { })
+                    fs.mkdirSync(basePath, { recursive: true }, () => { })
                     fs.writeFileSync(nameTS, data, 'binary')
                 } else {
                     console.log('error1', `${indexSource}/${lengthSource} ${indexList}/${lengthList}`, res)
