@@ -33,7 +33,7 @@ const config = {
     dataSourceTxtName: deployDir + '/dataSourceNine.txt',
     videoPath: deployDir + '/video',
     imgPath: deployDir + '/imgage',
-    line: 5,
+    line: 10,
     errorMax: 100,
     bananaBomb: {
         id: '485e433c1e8b44184301535373a70955',

@@ -10,6 +10,7 @@ export default async () => {
     let lengthSource = dataSourceKeys.length
     for (let indexSource = 0; indexSource < dataSourceKeys.length; indexSource++) {
         if (END) return
+        console.log('downloadOne', lengthLoading(), lengthOK(), lengthError(), lengthAll(), `${indexSource}/${lengthSource}`)
         let key = dataSourceKeys[indexSource]
         await run()
         let index = LIST.length
@@ -26,21 +27,19 @@ export default async () => {
 }
 
 async function run() {
-    let loading = LIST.filter(item => item instanceof Promise)
-    let errors = LIST.filter(item => item.includes && item.startsWith(error))
-    if (errors.length >= config.errorMax * 2) {
-        if (loading.length) {
-            console.log('错误过多', errors.length, loading.length, '等待10s')
+    if (lengthError() >= config.errorMax * 2) {
+        if (lengthLoading()) {
+            console.log('错误过多', lengthError(), lengthLoading(), '等待10s')
             await new Promise(res => setTimeout(res, 10000))
             await run()
         } else {
-            console.log('错误过多', errors.length, '停止')
+            console.log('错误过多', lengthError(), '停止')
             END = true
         }
-    } else if (errors.length >= config.errorMax) {
-        console.log('错误太多', errors.length, '休息10s')
+    } else if (lengthError() >= config.errorMax) {
+        console.log('错误太多', lengthError(), '休息10s')
         await new Promise(res => setTimeout(res, 10000))
-    } else if (loading.length >= config.line) {
+    } else if (lengthLoading() >= config.line) {
         await new Promise(res => setTimeout(res, 1000))
         await run()
     }
@@ -117,4 +116,20 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
             console.log('跳过', `${indexSource}/${lengthSource} ${indexList}/${lengthList}`, nameTS)
         }
     }
+}
+
+function lengthLoading() {
+    return LIST.filter(item => item instanceof Promise).length
+}
+
+function lengthError() {
+    return LIST.filter(item => item.includes && item.startsWith('error')).length
+}
+
+function lengthOK() {
+    return LIST.filter(item => item.includes && item.startsWith('ok')).length
+}
+
+function lengthAll() {
+    return LIST.length
 }
