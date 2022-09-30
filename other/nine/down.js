@@ -57,8 +57,8 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
                 await utils.file.saveDataSource(config.dataSourceTxtName, dataSource)
             }
         } else {
-            fs.mkdirSync(deployDir + '/video_error', { recursive: true }, () => { })
-            fs.writeFileSync(deployDir + `/video_error/detial_${key}.html`, data)
+            fs.mkdirSync(config.deployDir + '/video_error', { recursive: true }, () => { })
+            fs.writeFileSync(config.deployDir + `/video_error/detial_${key}.html`, data)
             console.log(`写入detial_${key}.html`, path)
         }
     }
