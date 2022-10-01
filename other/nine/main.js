@@ -40,7 +40,9 @@ async function loadData(page) {
                     if (dataSource[item.viewkey] && dataSource[item.viewkey].detail && dataSource[item.viewkey].detail.src) {
                         return Promise.resolve(dataSource[item.viewkey].detail)
                     } else {
-                        return axios(item.href).then(res => utils.format.detail(res.data).detail)
+                        return new Promise(resolve => {
+                            axios(item.href).then(res => resolve(utils.format.detail(res.data).detail)).catch(error => resolve({ error }))
+                        })
                     }
                 }))
                 details.forEach((detail, index) => {
@@ -48,9 +50,10 @@ async function loadData(page) {
                         listV[index].detail = detail
                     }
                 })
-                if (details.filter(item => !item.src).length > 1) {
+                if (details.filter(item => !item.src && !item.error).length > 1) {
                     config.isDetailJump = true
                 }
+
             }
             let isCompleted = saveData(listV)
             await utils.file.saveDataSource(dataSourceTxtName, dataSource)
@@ -70,6 +73,7 @@ async function loadData(page) {
         if (config.errorListCount > 100) {
             console.log('网络错误过多, 结束', error.code, error.message, url)
         } else {
+            config.errorListCount++
             console.log('网络错误, 再来', error.code, error.message, url)
             await new Promise(res => setTimeout(res, 1000))
             await loadData(page)
