@@ -75,7 +75,7 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
     let arr = detail.src.split('/')
     let nameM3U8 = basePath + '/' + arr.pop()
     if (!nameM3U8.toLowerCase().endsWith('.m3u8')) {
-        throw `error, 文件后缀错误${pathDetailName}`
+        throw `error, 文件后缀错误${nameM3U8}`
     }
     let strM3U8 = ''
     if (fs.existsSync(nameM3U8)) {

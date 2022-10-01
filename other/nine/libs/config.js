@@ -35,6 +35,7 @@ const config = {
     videoPath: deployDir + '/video',
     imgPath: deployDir + '/imgage',
     line: 20,
+    isDetailJump: false,
     category: process.argv[3] == 'all' ? '' : '&category=rf&viewtype=basic',
     errorMax: 10000,
     bananaBomb: {
