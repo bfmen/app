@@ -1,11 +1,10 @@
 import fs from 'fs'
 import axios from 'axios'
+axios.defaults.headers.common['accept-language'] = 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
 import config from './libs/config.js'
 import utils from './libs/utils.js'
 import down from './down.js'
 const argv2 = process.argv[2]
-
-// axios.defaults.headers.common['accept-language'] = 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
 let dataSourceStr = ''
 let dataSource = {}
 let dataSourceTxtName = config.dataSourceTxtName
@@ -28,7 +27,7 @@ async function start() {
 }
 
 async function loadData(page) {
-    const url = config.origin + `/v.php?category=rf&viewtype=basic&page=${page}`;
+    const url = config.origin + `/v.php?page=${page}${config.category}`;
     console.log('loadData1', page, '页', url)
     try {
         let res = await axios({ url })
@@ -36,6 +35,18 @@ async function loadData(page) {
             let obj = utils.format.all(res.data)
             let listV = obj.listV
             console.log('loadData2', `${page}/${obj.totalpage}`, listV.map(item => item.viewkey).join(','))
+            if (process.argv[3] != 'all') {
+                let details = await Promise.all(listV.map(item => {
+                    if (dataSource[item.viewkey] && dataSource[item.viewkey].detail) {
+                        return Promise.resolve(dataSource[item.viewkey].detail)
+                    } else {
+                        return axios(item.href).then(res => utils.format.detail(res.data).detail)
+                    }
+                }))
+                details.forEach((detail, index) => {
+                    listV[index].detail = detail
+                })
+            }
             let isCompleted = saveData(listV)
             await utils.file.saveDataSource(dataSourceTxtName, dataSource)
             if (listV.length == 0 || obj.totalpage <= page) {
@@ -63,7 +74,7 @@ function saveData(data) {
         } else {
             addNum++
         }
-        dataSource[item.viewkey] = {...dataSource[item.viewkey], ...item}
+        dataSource[item.viewkey] = { ...dataSource[item.viewkey], ...item }
     });
     console.log('saveData', 'add', addNum, 'update', upNum)
     return upNum == 24

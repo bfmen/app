@@ -21,6 +21,7 @@ const deployDir = (() => {
     }
     return deployDir
 })()
+const dataSourceTxtName = process.argv[3] == 'all' ? 'dataSourceNineAll.txt' : 'dataSourceNine.txt'
 console.log('Hello', deployDir)
 const config = {
     protocol,
@@ -30,11 +31,12 @@ const config = {
     query: () => ({ ...query, _t: new Date().valueOf(), s_device_id: query.s_device_id + '-' + new Date().valueOf() + '-' + Math.random().toString().slice(2, 8) }),
     // query: () => ({ ...query }),
     deployDir,
-    dataSourceTxtName: deployDir + '/dataSourceNine.txt',
+    dataSourceTxtName: deployDir + '/' + dataSourceTxtName,
     videoPath: deployDir + '/video',
     imgPath: deployDir + '/imgage',
-    line: 10,
-    errorMax: 100,
+    line: 20,
+    category: process.argv[3] == 'all' ? '' : '&category=rf&viewtype=basic',
+    errorMax: 10000,
     bananaBomb: {
         id: '485e433c1e8b44184301535373a70955',
         key: '4fd8c4a1862cc2bbac1ccbc13c853dc8',
