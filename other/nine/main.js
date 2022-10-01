@@ -59,6 +59,8 @@ async function loadData(page) {
             await utils.file.saveDataSource(dataSourceTxtName, dataSource)
             if (process.argv[3] == 'all' && isCompleted) {
 
+            } else if (isCompleted && config.isDetailJump) {
+
             } else if (listV.length == 0 || obj.totalpage <= page) {
                 console.log('结束24', `${page}/${obj.totalpage}`)
             } else {
