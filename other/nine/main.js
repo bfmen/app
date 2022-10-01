@@ -37,14 +37,16 @@ async function loadData(page) {
             console.log('loadData2', `${page}/${obj.totalpage}`, listV.map(item => item.viewkey).join(','))
             if (process.argv[3] != 'all') {
                 let details = await Promise.all(listV.map(item => {
-                    if (dataSource[item.viewkey] && dataSource[item.viewkey].detail) {
+                    if (dataSource[item.viewkey] && dataSource[item.viewkey].detail && dataSource[item.viewkey].detail.src) {
                         return Promise.resolve(dataSource[item.viewkey].detail)
                     } else {
                         return axios(item.href).then(res => utils.format.detail(res.data).detail)
                     }
                 }))
                 details.forEach((detail, index) => {
-                    listV[index].detail = detail
+                    if (detail.src) {
+                        listV[index].detail = detail
+                    }
                 })
             }
             let isCompleted = saveData(listV)
