@@ -36,6 +36,7 @@ const config = {
     imgPath: deployDir + '/imgage',
     line: 20,
     isDetailJump: false,
+    errorListCount: 0,
     category: process.argv[3] == 'all' ? '' : '&category=rf&viewtype=basic',
     headers: {
         'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',

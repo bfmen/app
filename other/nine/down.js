@@ -52,22 +52,13 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
     let detail = item.detail
     let fileList = utils.file.getFiles(basePath)
     let filename = fileList.find(name => name.toLocaleLowerCase().endsWith('.m3u8'))
-    if ((!detail || !detail.src) && !filename) {
-        let pathDetail = config.deployDir + '/video_error'
-        let pathDetailName = pathDetail + `/detial_${key}.html`
-        if (!fs.existsSync(pathDetailName)) {
-            let data = (await axios(item.href)).data
-            detail = utils.format.detail(data).detail
-            if (detail.src) {
-                item.detail = detail
-            } else {
-                fs.mkdirSync(config.deployDir + '/video_error', { recursive: true }, () => { })
-                fs.writeFileSync(config.deployDir + `/video_error/detial_${key}.html`, data)
-                console.log(`解析出错${pathDetailName}`)
-                throw `error, 解析出错下载${pathDetailName}`
-            }
+    if (((!detail || !detail.src) || !filename) && !config.isDetailJump) {
+        let data = (await axios(item.href)).data
+        detail = utils.format.detail(data).detail
+        if (detail.src) {
+            item.detail = detail
         } else {
-            throw `error, 解析出错存在${pathDetailName}`
+            config.isDetailJump = true
         }
 
     }

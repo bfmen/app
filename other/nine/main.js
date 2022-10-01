@@ -35,7 +35,7 @@ async function loadData(page) {
             let obj = utils.format.all(res.data)
             let listV = obj.listV
             console.log('loadData2', `${page}/${obj.totalpage}`, listV.map(item => item.viewkey).join(','))
-            if (process.argv[3] != 'all') {
+            if (process.argv[3] != 'all' && !config.isDetailJump) {
                 let details = await Promise.all(listV.map(item => {
                     if (dataSource[item.viewkey] && dataSource[item.viewkey].detail && dataSource[item.viewkey].detail.src) {
                         return Promise.resolve(dataSource[item.viewkey].detail)
@@ -48,10 +48,15 @@ async function loadData(page) {
                         listV[index].detail = detail
                     }
                 })
+                if (details.filter(item => !item.src).length > 1) {
+                    config.isDetailJump = true
+                }
             }
             let isCompleted = saveData(listV)
             await utils.file.saveDataSource(dataSourceTxtName, dataSource)
-            if (listV.length == 0 || obj.totalpage <= page) {
+            if (process.argv[3] == 'all' && isCompleted) {
+
+            } else if (listV.length == 0 || obj.totalpage <= page) {
                 console.log('结束24', `${page}/${obj.totalpage}`)
             } else {
                 await loadData(++page)
@@ -61,9 +66,15 @@ async function loadData(page) {
             await loadData(page)
         }
     } catch (error) {
-        console.log('网络错误, 再来', error.code, error.message, url)
-        await new Promise(res => setTimeout(res, 1000))
-        await loadData(page)
+        config.errorListCount++
+        if (config.errorListCount > 100) {
+            console.log('网络错误过多, 结束', error.code, error.message, url)
+        } else {
+            console.log('网络错误, 再来', error.code, error.message, url)
+            await new Promise(res => setTimeout(res, 1000))
+            await loadData(page)
+        }
+
     }
 }
 
@@ -79,7 +90,7 @@ function saveData(data) {
         dataSource[item.viewkey] = { ...dataSource[item.viewkey], ...item }
     });
     console.log('saveData', 'add', addNum, 'update', upNum)
-    return upNum == 24
+    return addNum == 0
 }
 
 
