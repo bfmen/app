@@ -52,6 +52,7 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
     let detail = item.detail
     let filename = utils.file.getFiles(basePath).find(name => name.toLocaleLowerCase().endsWith('.m3u8'))
     if (((!detail || !detail.src) || !filename) && !config.isDetailJump) {
+
         let data = (await axios(item.href)).data
         detail = utils.format.detail(data).detail
         if (detail.src) {
@@ -60,6 +61,10 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
             config.isDetailJump = true
         }
 
+    }
+    if (!detail || !detail.src) {
+        console.log('detail.src不存在，跳过' ,`${indexSource}/${lengthSource}`)
+        return
     }
     // 处理m3
     if (!filename) {
