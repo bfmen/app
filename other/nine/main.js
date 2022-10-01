@@ -17,13 +17,16 @@ start()
 async function start() {
     fs.mkdir(config.deployDir, { recursive: true }, () => { })
     dataSource = await utils.file.getDataSource(dataSourceTxtName)
-    console.log("初始", Object.keys(dataSource).length)
+    console.log("初始总数", Object.keys(dataSource).length)
+    console.log("初始detail数", Object.keys(dataSource).filter(key => dataSource[key].detail && dataSource[key].detail.src).length)
     console.log('start loadData')
     if (!argv2 || argv2 === 'list') await loadData(1)
     console.log('end loadData')
     if (!argv2 || argv2 === 'video') await down()
     console.log('end down')
     console.log('end')
+    console.log("结束总数", Object.keys(dataSource).length)
+    console.log("结束detail数", Object.keys(dataSource).filter(key => dataSource[key].detail && dataSource[key].detail.src).length)
 }
 
 async function loadData(page) {
@@ -58,9 +61,9 @@ async function loadData(page) {
             let isCompleted = saveData(listV)
             await utils.file.saveDataSource(dataSourceTxtName, dataSource)
             if (process.argv[3] == 'all' && isCompleted) {
-
+                console.log('停止list:all', 'isCompleted', isCompleted)
             } else if (isCompleted && config.isDetailJump) {
-
+                console.log('停止list', 'isCompleted', isCompleted, 'config.isDetailJump', config.isDetailJump)
             } else if (listV.length == 0 || obj.totalpage <= page) {
                 console.log('结束24', `${page}/${obj.totalpage}`)
             } else {
