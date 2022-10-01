@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "nodemon main.js",
     "dev:list": "nodemon main.js list",
+    "dev:list:all": "nodemon main.js list all",
     "dev:video": "nodemon main.js video",
     "start": "node main.js",
     "start:list": "node main.js list",

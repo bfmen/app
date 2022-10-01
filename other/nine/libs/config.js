@@ -36,6 +36,11 @@ const config = {
     imgPath: deployDir + '/imgage',
     line: 20,
     category: process.argv[3] == 'all' ? '' : '&category=rf&viewtype=basic',
+    headers: {
+        'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+        'cookie': '__utmc=29588542; CLIPSHARE=1e6cvd333i31ui3jdaq62f1kj68; __utma=29588542.614449311.1664612208.1664612208.1664612208.1; __utmb=29588542.0.10.1664612208; __utmz=29588542.1664612208.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); 91username=4bd9e3b%2B9BxbIuD5lUCYJA%2BYvR8bDy%2FTqnGshrUyr3j2Eg; DUID=c256dRXscp0ENO866smv3S4ssLj0U5AwQBvfxDmOusPD%2Fc65tQ; USERNAME=a339Cos%2B7%2BzqQE3dRhEflBzL000tLDrL1oui7SUubWYfMA; EMAILVERIFIED=no; school=c2e9mvYH2fg2yROS03jkC%2BkcS3tdDMc6lZnttME; level=6a3cRmYOlcEm1GiCFVeYBtOywFDAViCFJG7TgQMS; country_bean=71937XiCm3%2BOveKfzlJjRmi1qozOjRVucvJFVlO7',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.50'
+    },
     errorMax: 10000,
     bananaBomb: {
         id: '485e433c1e8b44184301535373a70955',

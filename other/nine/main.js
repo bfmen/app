@@ -1,9 +1,9 @@
 import fs from 'fs'
 import axios from 'axios'
-axios.defaults.headers.common['accept-language'] = 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
 import config from './libs/config.js'
 import utils from './libs/utils.js'
 import down from './down.js'
+axios.defaults.headers.common = { ...axios.defaults.headers.common, ...config.headers }
 const argv2 = process.argv[2]
 let dataSourceStr = ''
 let dataSource = {}
