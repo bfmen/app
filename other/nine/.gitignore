@@ -1,0 +1,4 @@
+node_modules
+dist_deploy/video*
+yarn.lock
+yarn-error.log
