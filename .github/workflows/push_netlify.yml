@@ -19,6 +19,9 @@ jobs:
           node-version: 16.x
       - run: pwd
       - run: ls
+      - run: cd /home/runner/work/app/app/other/nine
+      - run: pwd
+      - run: ls
       - run: cd other/nine
       - run: pwd
       - run: npm install
