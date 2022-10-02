@@ -17,8 +17,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
+      - run: pwd
       - run: cd other/nine
+      - run: pwd
       - run: npm install
+      - run: ls
       - run: npm run start:list
 
       - name: Deploy to netlify
