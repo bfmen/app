@@ -57,6 +57,9 @@ const config = {
     videoSuffix: '.mp4',
     extraName: '_tmp',
     maxProcess: 5,
+    netlify: {
+        personal_access_token: 'CZoRd9Ak3EtpYb5fjRMDvaByvMTGtcWi_D0d0OUpno4'
+    },
     utils: {
         string2base64: function (str) {
             return new Buffer(str).toString('base64')
