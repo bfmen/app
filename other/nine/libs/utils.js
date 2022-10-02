@@ -2,6 +2,7 @@ import cheerio from 'cheerio'
 import pako from 'pako'
 import fs from 'fs'
 import path from 'path'
+import dayjs from 'dayjs'
 let utils = {
   format: {
     all: function (data) {
@@ -142,6 +143,12 @@ let utils = {
     },
     isHexStr: function (str) {
       return /^[A-Fa-f0-9]{1,}$/.test(str)
+    }
+  },
+  console: {
+    log: function () {
+      let str = dayjs().format("YYYY-MM-DD HH:mm:ss")
+      console.log(str, ...arguments);
     }
   }
 }

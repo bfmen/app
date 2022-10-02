@@ -1,4 +1,5 @@
 import os from 'os'
+import utils from './utils.js'
 const protocol = 'https:'
 // const host = 'f0727.wonderfulday29.live'
 const host = '0831.91p51.live'
@@ -11,10 +12,10 @@ const query = {
     s_platform: 'ios',
     _t: '1587401036000'
 }
-console.log('Hello', os.hostname())
+utils.console.log('Hello', os.hostname())
 const deployDir = (() => {
     let deployDir = 'dist_deploy'
-    if (os.hostname() == 'zcdeMacBook-Air.localxxx') {
+    if (os.hostname() == 'zcdeMacBook-Air.local') {
         deployDir = '/Volumes/TOSHIBA_EXT/backups/SuperTime/Windows8/win11/91'
     } else if (os.hostname() == 'RT-N56U_B1') {
         deployDir = '/media/TOSHIBA_EXT/backups/SuperTime/Windows8/win11/91'
@@ -22,7 +23,7 @@ const deployDir = (() => {
     return deployDir
 })()
 const dataSourceTxtName = process.argv[3] == 'all' ? 'dataSourceNineAll.txt' : 'dataSourceNine.txt'
-console.log('Hello', deployDir)
+utils.console.log('Hello', deployDir)
 const config = {
     protocol,
     host,
