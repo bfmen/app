@@ -15,14 +15,16 @@ const query = {
 utils.console.log('Hello', os.hostname())
 const deployDir = (() => {
     let deployDir = 'dist_deploy'
-    if (os.hostname() == 'zcdeMacBook-Air.local') {
+    if (os.hostname() == 'zcdeMacBook-Air.localxxx') {
         deployDir = '/Volumes/TOSHIBA_EXT/backups/SuperTime/Windows8/win11/91'
     } else if (os.hostname() == 'RT-N56U_B1') {
         deployDir = '/media/TOSHIBA_EXT/backups/SuperTime/Windows8/win11/91'
     }
     return deployDir
 })()
-const dataSourceTxtName = process.argv[3] == 'all' ? 'dataSourceNineAll.txt' : 'dataSourceNine.txt'
+const dataSourceName = 'dataSourceNine.txt'
+const dataSourceAllName = 'dataSourceNineAll.txt'
+const dataSourceTxtName = process.argv[3] == 'all' ? dataSourceAllName : dataSourceName
 utils.console.log('Hello', deployDir)
 const config = {
     protocol,
@@ -32,12 +34,15 @@ const config = {
     query: () => ({ ...query, _t: new Date().valueOf(), s_device_id: query.s_device_id + '-' + new Date().valueOf() + '-' + Math.random().toString().slice(2, 8) }),
     // query: () => ({ ...query }),
     deployDir,
+    dataSourceTxtNameReal: dataSourceTxtName,
     dataSourceTxtName: deployDir + '/' + dataSourceTxtName,
     videoPath: deployDir + '/video',
     imgPath: deployDir + '/imgage',
     line: 20,
     isDetailJump: false,
     errorListCount: 0,
+    dataSourceName,
+    dataSourceAllName,
     category: process.argv[3] == 'all' ? '' : '&category=rf&viewtype=basic',
     headers: {
         'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
@@ -58,7 +63,8 @@ const config = {
     extraName: '_tmp',
     maxProcess: 5,
     netlify: {
-        personal_access_token: 'CZoRd9Ak3EtpYb5fjRMDvaByvMTGtcWi_D0d0OUpno4'
+        personal_access_token: 'CZoRd9Ak3EtpYb5fjRMDvaByvMTGtcWi_D0d0OUpno4',
+        url: 'https://nine-sit.netlify.app'
     },
     utils: {
         string2base64: function (str) {

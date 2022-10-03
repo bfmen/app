@@ -1,8 +1,9 @@
 name: push netlify
 
 on:
-  watch:
-    types: [started]
+  schedule:
+    - cron: '45 11 * 
+    * *'
 
 jobs:
   deploy:
@@ -17,15 +18,9 @@ jobs:
         with:
           node-version: 16.x
       - run: pwd
-      - run: ls
-      - run: cd /home/runner/work/app/app/other/nine
-      - run: pwd
-      - run: ls
-      - run: cd other/nine
-      - run: pwd
       - run: npm install
-      - run: ls
       - run: npm run start:list
+      - run: npm run start:list:all
 
       - name: Deploy to netlify
         uses: netlify/actions/cli@master

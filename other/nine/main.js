@@ -17,6 +17,7 @@ start()
 async function start() {
     utils.console.log(new Date().toLocaleDateString(), new Date().toLocaleTimeString())
     fs.mkdir(config.deployDir, { recursive: true }, () => { })
+    await downloadData()
     dataSource = await utils.file.getDataSource(dataSourceTxtName)
     utils.console.log("初始总数", Object.keys(dataSource).length)
     utils.console.log("初始detail数", Object.keys(dataSource).filter(key => dataSource[key].detail && dataSource[key].detail.src).length)
@@ -30,6 +31,19 @@ async function start() {
     utils.console.log("结束detail数", Object.keys(dataSource).filter(key => dataSource[key].detail && dataSource[key].detail.src).length)
     utils.console.log(new Date().toLocaleDateString(), new Date().toLocaleTimeString())
 }
+
+async function downloadData() {
+    let url = config.netlify.url + '/' + config.dataSourceTxtNameReal
+    utils.console.log('downloadData1', url)
+    let res = await axios({
+        url,
+        responseType: 'arraybuffer'
+    })
+    let data = res.data
+    fs.writeFileSync(config.dataSourceTxtName, data, 'binary')
+    utils.console.log('downloadData success')
+}
+
 
 async function loadData(page) {
     const url = config.origin + `/v.php?page=${page}${config.category}`;

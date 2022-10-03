@@ -76,6 +76,8 @@ let utils = {
     }
   },
   file: {
+    zip,
+    unzip,
     mkdir: (path) => {
       fs.mkdirSync(path, { recursive: true }, () => { })
     },
