@@ -15,7 +15,7 @@ const query = {
 utils.console.log('Hello', os.hostname())
 const deployDir = (() => {
     let deployDir = 'dist_deploy'
-    if (os.hostname() == 'zcdeMacBook-Air.localxxx') {
+    if (os.hostname() == 'zcdeMacBook-Air.local') {
         deployDir = '/Volumes/TOSHIBA_EXT/backups/SuperTime/Windows8/win11/91'
     } else if (os.hostname() == 'RT-N56U_B1') {
         deployDir = '/media/TOSHIBA_EXT/backups/SuperTime/Windows8/win11/91'

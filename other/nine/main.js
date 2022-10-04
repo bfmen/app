@@ -3,6 +3,7 @@ import axios from 'axios'
 import config from './libs/config.js'
 import utils from './libs/utils.js'
 import down from './down.js'
+import merge from './merge.js'
 axios.defaults.headers.common = { ...axios.defaults.headers.common, ...config.headers }
 const argv2 = process.argv[2]
 let dataSourceStr = ''
@@ -17,7 +18,7 @@ start()
 async function start() {
     utils.console.log(new Date().toLocaleDateString(), new Date().toLocaleTimeString())
     fs.mkdir(config.deployDir, { recursive: true }, () => { })
-    await downloadData()
+    if (!argv2 || argv2 === 'list' || argv2 === 'video') await downloadData()
     dataSource = await utils.file.getDataSource(dataSourceTxtName)
     utils.console.log("初始总数", Object.keys(dataSource).length)
     utils.console.log("初始detail数", Object.keys(dataSource).filter(key => dataSource[key].detail && dataSource[key].detail.src).length)
@@ -25,6 +26,7 @@ async function start() {
     if (!argv2 || argv2 === 'list') await loadData(1)
     utils.console.log('end loadData')
     if (!argv2 || argv2 === 'video') await down()
+    if (!argv2 || argv2 === 'merge') await merge()
     utils.console.log('end down')
     utils.console.log('end')
     utils.console.log("结束总数", Object.keys(dataSource).length)

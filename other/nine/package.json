@@ -9,10 +9,12 @@
     "dev:list": "nodemon main.js list",
     "dev:list:all": "nodemon main.js list all",
     "dev:video": "nodemon main.js video",
+    "dev:merge": "nodemon main.js merge",
     "start": "node main.js",
     "start:list": "node main.js list",
     "start:list:all": "node main.js list all",
     "start:video": "node main.js video",
+    "start:merge": "node main.js merge",
     "pub": "yarn netlify deploy --prod --dir=dist_deploy",
     "update": "yarn start:list && yarn start:list:all && yarn pub",
     "task": "yarn start:list && yarn start:video"
@@ -23,8 +25,10 @@
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
     "dayjs": "^1.11.5",
+    "fluent-ffmpeg": "^2.1.2",
     "netlify-cli": "^12.0.2",
     "nodemon": "^2.0.20",
-    "pako": "^2.0.4"
+    "pako": "^2.0.4",
+    "single-line-log": "^1.1.2"
   }
 }
