@@ -2,5 +2,5 @@ node_modules
 dist_deploy/video*
 yarn.lock
 yarn-error.log
-dist_deploy/.DS_Store
+.DS_Store
 dataSource*.txt

@@ -63,7 +63,7 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
 
     }
     if (!detail || !detail.src) {
-        utils.console.log('detail.src不存在，跳过' ,`${indexSource}/${lengthSource}`)
+        utils.console.log('detail.src不存在，跳过', `${indexSource}/${lengthSource}`)
         return
     }
     // 处理m3
@@ -98,7 +98,7 @@ async function downloadOne(dataSource, key, lengthSource, indexSource) {
     for (let i = 0; i < lengthList; i++) {
         let name = list[i]
         let indexList = Object.values(list).indexOf(name)
-        let url = arr.join('/') + '/' + name
+        let url = name.startsWith('http') ? name : (arr.join('/') + '/' + name)
         let nameTS = basePath + '/' + url.split('/').pop()
         if (!fs.existsSync(nameTS)) {
             try {
