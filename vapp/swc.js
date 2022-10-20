@@ -30,7 +30,7 @@ function isCacheType(event) {
 const proxyUrl = 'https://spectacular-youtiao-f4e424.netlify.app/api/file?uuu='
 
 function isProxy(url) {
-	let hosts = ['1257120875.vod2.myqcloud.com', 'd2zihajmogu5jn.cloudfront.net', '122.9.132.112', 'cdn77.91p49.com', 'www.baidu.com']
+	let hosts = ['1257120875.vod2.myqcloud.com', 'd2zihajmogu5jn.cloudfront.net', '122.9.132.112', 'cdn77.91p49.com', 'www.baidu.com', 'hls-hw.xvideos-cdn.com']
 	return !url.startsWith(proxyUrl) && hosts.some(host => url.includes(`//${host}`))
 }
 
@@ -40,7 +40,7 @@ self.addEventListener('fetch', function (event) {
 	if (isProxy(event.request.url)) {
 		let request = event.request.clone()
 		Object.defineProperty(request, 'url', { writable: true });
-		request.url = proxyUrl + event.request.url
+		request.url = proxyUrl + encodeURIComponent(event.request.url)
 		// request.url = 'http://localhost:8080/favicon.ico'
 		// request.url = proxyUrl + 'http://122.9.132.112/img/yslogo.91c887ee.png'
 		// request.url = 'https://spectacular-youtiao-f4e424.netlify.app/api/file'
@@ -48,9 +48,9 @@ self.addEventListener('fetch', function (event) {
 		event.respondWith(fetch(request.url).then(async (networkResponse) => {
 			// console.log('networkResponse', networkResponse.body)
 			let contentType = networkResponse.headers.get("content-type")
-			console.log('contentType', this.url, contentType)
+			console.log('contentType', request.url, contentType)
 			let data = await networkResponse.text()
-			if (['image/'].some(str => contentType.includes(str))) {
+			if (['image/', 'video/'].some(str => contentType.includes(str))) {
 				data = stringToUint8Array(data)
 			} else if (contentType.includes('application/octet-stream')) {
 				if (event.request.url.includes('.m3u8')) {
