@@ -52,8 +52,12 @@ self.addEventListener('fetch', function (event) {
 			let data = await networkResponse.text()
 			if (['image/'].some(str => contentType.includes(str))) {
 				data = stringToUint8Array(data)
-			} else if (contentType.includes('application/octet-stream') && event.request.url.includes('.m3u8')) {
-				data = modifyResponse(data, event.request.url)
+			} else if (contentType.includes('application/octet-stream')) {
+				if (event.request.url.includes('.m3u8')) {
+					data = modifyResponse(data, event.request.url)
+				} else {
+					data = stringToUint8Array(data)
+				}
 			}
 			var myResponse = new Response(data, { "status": 200, "statusText": "SuperSmashingGreat!" });
 			return myResponse
