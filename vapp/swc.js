@@ -27,10 +27,38 @@ function isCacheType(event) {
 	return 0
 }
 
+const proxyUrl = 'https://spectacular-youtiao-f4e424.netlify.app/api/file?uuu='
+
+function isProxy(url) {
+	let hosts = ['1257120875.vod2.myqcloud.com', 'd2zihajmogu5jn.cloudfront.net', '122.9.132.112', 'cdn77.91p49.com', 'www.baidu.com']
+	return !url.startsWith(proxyUrl) && hosts.some(host => url.includes(`//${host}`))
+}
+
 
 self.addEventListener('fetch', function (event) {
 	// console.log('fetch ==>', event.request.url)
-	if (isCache1(event)) {
+	if (isProxy(event.request.url)) {
+		let request = event.request.clone()
+		Object.defineProperty(request, 'url', { writable: true });
+		request.url = proxyUrl + event.request.url
+		// request.url = 'http://localhost:8080/favicon.ico'
+		// request.url = proxyUrl + 'http://122.9.132.112/img/yslogo.91c887ee.png'
+		// request.url = 'https://spectacular-youtiao-f4e424.netlify.app/api/file'
+		console.log('proxy fetch ==>', event.request.url, request.url)
+		event.respondWith(fetch(request.url).then(async (networkResponse) => {
+			// console.log('networkResponse', networkResponse.body)
+			let contentType = networkResponse.headers.get("content-type")
+			console.log('contentType', this.url, contentType)
+			let data = await networkResponse.text()
+			if (['image/'].some(str => contentType.includes(str))) {
+				data = stringToUint8Array(data)
+			} else if (contentType.includes('application/octet-stream') && event.request.url.includes('.m3u8')) {
+				data = modifyResponse(data, event.request.url)
+			}
+			var myResponse = new Response(data, { "status": 200, "statusText": "SuperSmashingGreat!" });
+			return myResponse
+		}))
+	} else if (isCache1(event)) {
 		event.respondWith(
 			caches.open(cacheName).then((cache) => {
 				return cache.match(event.request).then((cacheResponse) => {
@@ -81,4 +109,36 @@ self.addEventListener('install', function (event) {
 });
 
 
+function modifyResponse(response, url) {
+	console.log('modifyResponse')
+	let data = response
+	let responseNew = ''
+	if (url.includes('.m3u8')) {
+		let urlReals = url.split('/')
+		urlReals.pop()
+		let urlReal = urlReals.join('/')
+		responseNew = data.split('\n').map(str => {
+			if (str.includes('.ts')) {
+				if (str.startsWith('http')) {
+					return str
+				} else {
+					return `${urlReal}/${str}`
+				}
+			} else {
+				return str
+			}
+		}).join('\n')
+	} else if (url.includes('.ts')) {
+		responseNew = stringToUint8Array(data)
+	}
+	return responseNew
+}
 
+function stringToUint8Array(str) {
+	var arr = [];
+	for (var i = 0, j = str.length; i < j; ++i) {
+		arr.push(str.charCodeAt(i));
+	}
+	var tmpUint8Array = new Uint8Array(arr);
+	return tmpUint8Array
+}
