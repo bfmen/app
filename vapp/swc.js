@@ -30,11 +30,11 @@ function isCacheType(event) {
 const proxyUrl = 'https://spectacular-youtiao-f4e424.netlify.app/api/file?uuu='
 
 function isProxy(url) {
-	let hosts = ['1257120875.vod2.myqcloud.com', 'd2zihajmogu5jn.cloudfront.net', '122.9.132.112', 'cdn77.91p49.com', 'www.baidu.com', 'hls-hw.xvideos-cdn.com']
+	let hosts = ['1257120875.vod2.myqcloud.com', 'd2zihajmogu5jn.cloudfront.net', '122.9.132.112', 'cdn77.91p49.com', 'www.baidu.com', 'hls-hw.xvideos-cdn.com', 'img-hw.xvideos-cdn.com']
 	return !url.startsWith(proxyUrl) && hosts.some(host => url.includes(`//${host}`))
 }
 
-
+// console.log('swc self', self)
 self.addEventListener('fetch', function (event) {
 	// console.log('fetch ==>', event.request.url)
 	if (isProxy(event.request.url)) {
@@ -52,7 +52,7 @@ self.addEventListener('fetch', function (event) {
 			let data = await networkResponse.text()
 			if (['image/', 'video/'].some(str => contentType.includes(str))) {
 				data = stringToUint8Array(data)
-			} else if (contentType.includes('application/octet-stream')) {
+			} else if (['application/octet-stream', 'application/x-mpegURL'].some(str => contentType.includes(str))) {
 				if (event.request.url.includes('.m3u8')) {
 					data = modifyResponse(data, event.request.url)
 				} else {
@@ -122,7 +122,7 @@ function modifyResponse(response, url) {
 		urlReals.pop()
 		let urlReal = urlReals.join('/')
 		responseNew = data.split('\n').map(str => {
-			if (str.includes('.ts')) {
+			if (['.ts', '.m3u8'].some(str2 => str.includes(str2))) {
 				if (str.startsWith('http')) {
 					return str
 				} else {

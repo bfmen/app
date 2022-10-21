@@ -1,1 +1,0 @@
-import{n as o}from"./index.d9271ec0.js";var s=function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",[t._v("list")])},_=[];const l={created(){}},n={};var a=o(l,s,_,!1,c,null,null,null);function c(t){for(let e in n)this[e]=n[e]}var u=function(){return a.exports}();export{u as default};
