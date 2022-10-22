@@ -30,8 +30,8 @@ function isCacheType(event) {
 const proxyUrl = 'https://spectacular-youtiao-f4e424.netlify.app/api/file?uuu='
 
 function isProxy(url) {
-	let hosts = ['1257120875.vod2.myqcloud.com', 'd2zihajmogu5jn.cloudfront.net', '122.9.132.112', 'cdn77.91p49.com', 'www.baidu.com', 'hls-hw.xvideos-cdn.com', 'img-hw.xvideos-cdn.com']
-	return !url.startsWith(proxyUrl) && hosts.some(host => url.includes(`//${host}`))
+	let hosts = ['1257120875.vod2.myqcloud.com', 'd2zihajmogu5jn.cloudfront.net', '122.9.132.112', 'cdn77.91p49.com', 'www.baidu.com', 'hls-hw.xvideos-cdn.com', 'xvideos-cdn.com']
+	return !url.startsWith(proxyUrl) && hosts.some(host => url.includes(`${host}/`))
 }
 
 // console.log('swc self', self)
