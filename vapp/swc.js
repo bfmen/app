@@ -52,12 +52,15 @@ self.addEventListener('fetch', function (event) {
 			let data = await networkResponse.text()
 			if (['image/', 'video/'].some(str => contentType.includes(str))) {
 				data = stringToUint8Array(data)
-			} else if (['application/octet-stream', 'application/x-mpegURL'].some(str => contentType.includes(str))) {
+			} else if (['application/octet-stream', 'application/x-mpegURL', 'application/vnd.apple.mpegurl'].some(str => contentType.includes(str))) {
 				if (event.request.url.includes('.m3u8')) {
 					data = modifyResponse(data, event.request.url)
 				} else {
 					data = stringToUint8Array(data)
 				}
+			} else {
+				console.log('proxy fetch new type')
+				data = stringToUint8Array(data)
 			}
 			var myResponse = new Response(data, { "status": 200, "statusText": "SuperSmashingGreat!" });
 			return myResponse
