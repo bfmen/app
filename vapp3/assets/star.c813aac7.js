@@ -1,1 +1,0 @@
-import r from"./axios.24dd4b16.js";import"./index.b805869b.js";import{_ as a,o as e,c as o}from"./index.0b5f7306.js";import"./config.f31e076d.js";const s={async created(){let t=await r();format(t.data)}};function c(t,n,p,i,m,_){return e(),o("div",null,"star")}const $=a(s,[["render",c]]);export{$ as default};
