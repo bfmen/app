@@ -1,1 +1,0 @@
-import{appStore as e}from"./index.f40b50d5.js";import{J as r}from"./index.e460bc3a.js";const o={watch:{$data:{deep:!0,handler(a){let t=this.$route.path;e.data[t]=a}}},created(){let a=this.$route.path,t=e.data[a];t&&r.util.mergeObj(this.$data,t)}};export{o as _};
