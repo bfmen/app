@@ -1,0 +1,1 @@
+import{Q as a,U as s,aT as u}from"./index.c209ee9e.2022_11_09_01_53_08.js";function m(){const e=a(0),o=a(0);function n(t){e.value=t.pageX,o.value=t.pageY}return s(()=>window.addEventListener("mousemove",n)),u(()=>window.removeEventListener("mousemove",n)),{x:e,y:o}}let d={useMouse:m};export{d as default,m as useMouse};
