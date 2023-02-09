@@ -12,7 +12,7 @@ function isCache1(event) {
 
 function isCache2(event) {
 	let url = event.request.url
-	return ['6jwti3892pf605m004mn.lagoapps.com'].some(include => url.includes(include))
+	return ['b7c1xh.xmxw.top'].some(include => url.includes(include))
 }
 
 function isCache3(event) {
