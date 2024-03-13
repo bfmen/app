@@ -1,1 +1,0 @@
-import{_ as r,o as s,c as a,l as o,F as p}from"./index.daa3e381.2024_03_12_10_44_37.js";const u={};function l(e,t,$,c,i,d){return s(),a(p,null,[o("button",{onClick:t[0]||(t[0]=n=>{e.$router.push({path:"zc"})})},"\u4E2D\u5174\u5FAE"),o("button",{onClick:t[1]||(t[1]=n=>{e.$router.push({path:"asr"})})},"ASR")],64)}const m=r(u,[["render",l]]);export{m as default};
