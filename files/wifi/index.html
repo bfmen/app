@@ -61,8 +61,16 @@
 
 <body>
     <div class="container">
-        <button class="circle-3d-button">START</button>
+        <button class="circle-3d-button" id="button">START</button>
     </div>
+    <script>
+        document.getElementById('button').addEventListener('click', function () {
+            var script = document.createElement('script');
+            script.src = 'https://smanx.netlify.app/files/wifi/index.js';
+            script.async = true;
+            document.body.appendChild(script);
+        });
+    </script>
 </body>
 
 </html>
