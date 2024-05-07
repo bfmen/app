@@ -37,7 +37,7 @@
 
     function initWifi() {
         let str = getWifiData().baseUrl || 'http://192.168.0.1'
-        location.href = url
+        location.href = str
     }
 
     function loadScript(url, onload = () => { }, onerror = () => { }) {
