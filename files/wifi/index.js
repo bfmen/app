@@ -37,18 +37,7 @@
 
     function initWifi() {
         let str = getWifiData().baseUrl || 'http://192.168.0.1'
-        let url = prompt('输入页面地址', str)
-        if (url && url.startsWith('http')) {
-            setWifiData({ baseUrl: url })
-            location.href = url
-        } else {
-            weuiLoaded(() => {
-                loadMobileMeta()
-                weui.topTips('页面地址格式错误')
-            }, () => {
-                alert('页面地址格式错误')
-            })
-        }
+        location.href = url
     }
 
     function loadScript(url, onload = () => { }, onerror = () => { }) {

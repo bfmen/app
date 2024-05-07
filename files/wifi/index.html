@@ -65,10 +65,12 @@
     </div>
     <script>
         document.getElementById('button').addEventListener('click', function () {
-            var script = document.createElement('script');
-            script.src = 'https://smanx.netlify.app/files/wifi/index.js';
-            script.async = true;
-            document.body.appendChild(script);
+            let str = window.wifiTool.getWifiData().baseUrl || 'http://192.168.0.1'
+            let url = prompt('输入随身wifi地址', str)
+            if (url && url.startsWith('http')) {
+                window.wifiTool.setWifiData({ baseUrl: url })
+                location.href = url
+            }
         });
     </script>
 </body>
