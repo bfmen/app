@@ -12,6 +12,29 @@
 (function () {
     'use strict';
     console.log('test')
+    window.wifiTool = {
+        loadMobileMeta,
+        loadScript,
+        getWifiData,
+        setWifiData
+    }
+    if (location.pathname === '/index_mobile.html' && $('#indexContainer-mobile').length && $('#mainContainer-mobile').length) {
+        location.href = location.origin + '/index.html'
+    }
+    if (location.pathname === '/index.html' && $('#statusBar').length && $('#indexContainer').length && $('#mainContainer').length) {
+        loadScript('https://smanx.netlify.app/files/wifi/zxw/test.js')
+    }
+    if (document.body.getAttribute('onload') === 'initIndex()') {
+        loadScript('https://smanx.netlify.app/files/wifi/asr/index.js')
+
+    }
+    if (location.pathname === '/files/wifi/index.html') {
+        initWifi()
+    }
+    if (location.href === 'about:blank') {
+        initWifi()
+    }
+
     function initWifi() {
         let str = getWifiData().baseUrl || 'http://192.168.0.1'
         let url = prompt('输入页面地址', str)
@@ -27,51 +50,43 @@
             })
         }
     }
-    if (location.pathname === '/index_mobile.html' && $('#indexContainer-mobile').length && $('#mainContainer-mobile').length) {
-        location.href = location.origin + '/index.html'
-    }
-    if (location.pathname === '/index.html' && $('#statusBar').length && $('#indexContainer').length && $('#mainContainer').length) {
+
+    function loadScript(url, onload = () => { }, onerror = () => { }) {
         var script = document.createElement('script');
-        script.src = 'https://smanx.netlify.app/files/wifi/zxw/test.js'; 
+        script.src = url;
         script.async = true;
+        script.onload = onload
+        script.onerror = onerror
         document.body.appendChild(script);
     }
-    if (location.pathname === '/files/wifi/index.html') {
-        initWifi()
-    }
-    if (location.href === 'about:blank') {
-        initWifi()
-    }
 
-    function getWifiData() {
+    function getWifiData(key = 'wifi') {
         try {
-            return JSON.parse(localStorage.wifi)
+            return JSON.parse(localStorage[key])
         } catch (error) {
             return {}
         }
     }
 
-    function setWifiData(data = {}) {
-        localStorage.wifi = JSON.stringify({ ...getWifiData(), ...data })
+    function setWifiData(data = {}, key = 'wifi') {
+        localStorage[key] = JSON.stringify({ ...getWifiData(), ...data })
     }
 
     function loadMobileMeta() {
-        var meta = document.createElement('meta')
-        meta.name = 'viewport'
-        meta.content = 'width=device-width, initial-scale=1.0'
-        document.getElementsByTagName('head')[0].appendChild(meta)
+        if (!document.querySelector("#mobileMeta")) {
+            var meta = document.createElement('meta')
+            meta.name = 'viewport'
+            meta.id = 'mobileMeta'
+            meta.content = 'width=device-width, initial-scale=1.0'
+            document.getElementsByTagName('head')[0].appendChild(meta)
+        }
     }
 
     function weuiLoaded(onload = () => { }, onerror = () => { }) {
         if (window.weui) {
             onload()
         } else {
-            var script = document.createElement('script');
-            script.src = 'https://res.wx.qq.com/t/wx_fed/weui.js/res/1.2.21/weui.min.js';
-            script.async = true;
-            document.body.appendChild(script);
-            script.onload = onload
-            script.onerror = onerror
+            loadScript('https://res.wx.qq.com/t/wx_fed/weui.js/res/1.2.21/weui.min.js', onload, onerror)
             var link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = 'https://res.wx.qq.com/t/wx_fed/weui-source/res/2.5.16/weui.min.css';
