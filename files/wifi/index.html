@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>圆形3D单按钮手机页面</title>
+    <title>START</title>
     <style>
         body,
         html {
@@ -13,68 +13,46 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #f0f0f0;
         }
 
         .container {
             text-align: center;
-            /* 容器内文本居中 */
         }
 
         .circle-3d-button {
             display: inline-block;
             padding: 15px 30px;
-            /* 根据需要调整内边距，确保圆形 */
             border: none;
             border-radius: 50%;
             background-color: #337ab7;
-            /* 按钮背景色 */
             color: white;
-            /* 文本颜色 */
             font-size: 30px;
-            /* 字体大小 */
             font-weight: bold;
             width: 200px;
             height: 200px;
-
             text-transform: uppercase;
-            /* 文本大写 */
             cursor: pointer;
             transition: all 0.3s ease;
-            /* 过渡效果 */
             position: relative;
-            /* 为伪元素定位 */
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            /* 阴影 */
             outline: none;
-            /* 去除点击时的边框 */
-
-            /* 3D效果：添加内阴影 */
             box-shadow: inset 0 0 0 0 #337ab7,
                 0 5px 10px rgba(0, 0, 0, 0.1);
 
-            /* 渐变背景色（可选） */
             background: linear-gradient(to bottom, #337ab7, #286090);
 
 
-            /* 悬停效果 */
             &:hover {
                 transform: scale(1.05);
-                /* 悬停时放大按钮 */
                 box-shadow: inset 0 0 0 100px rgba(255, 255, 255, 0.1),
                     0 5px 10px rgba(0, 0, 0, 0.1);
-                /* 放大内阴影 */
                 background: #286090;
-                /* 悬停时背景色 */
             }
 
-            /* 活跃状态（可选） */
             &:active {
                 transform: scale(1);
-                /* 按下时恢复原始大小 */
                 box-shadow: inset 0 0 0 0 #337ab7,
                     0 2px 5px rgba(0, 0, 0, 0.1);
-                /* 减小阴影 */
             }
         }
     </style>
