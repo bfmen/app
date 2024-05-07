@@ -44,9 +44,9 @@
         } else {
             weuiLoaded(() => {
                 loadMobileMeta()
-                weui.dialog({ title: '页面地址需要以http开头' })
+                weui.topTips('页面地址格式错误')
             }, () => {
-                alert('页面地址需要以http开头')
+                alert('页面地址格式错误')
             })
         }
     }

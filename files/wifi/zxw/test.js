@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         New Userscript
+// @name         ZXW
 // @namespace    http://tampermonkey.net/
 // @version      2024-05-03
 // @description  try to take over the world!
@@ -14,7 +14,7 @@
 
 (function () {
     'use strict';
-    let password = 'admin2'
+    let password = 'admin'
     var loginError = false
     setTimeout(() => {
         if (location.href.includes('#login') || location.href.includes('#entry')) {
