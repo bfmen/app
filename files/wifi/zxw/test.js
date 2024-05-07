@@ -14,17 +14,36 @@
 
 (function () {
     'use strict';
-    let password = 'admin'
+    let password = 'admin2'
+    var loginError = false
     setTimeout(() => {
         if (location.href.includes('#login') || location.href.includes('#entry')) {
-            login(() => {
-                // location.reload()
-                location.href = location.origin + '/index.html'
-            })
+            if (!loginError) {
+                login(() => {
+                    // location.reload()
+                    location.href = location.origin + '/index.html'
+                })
+            }
+            var timer
+            clearInterval(timer)
+            timer = setInterval(() => {
+                let txtPwd = document.querySelector("#txtPwd")
+                if (txtPwd && txtPwd.value) {
+                    window.wifiTool.setWifiData({
+                        zxw: {
+                            password: txtPwd.value
+                        }
+                    })
+                }
+            }, 100)
         }
     }, 1000)
 
     function login(callback) {
+        let zxw = window.wifiTool.getWifiData().zxw
+        if (zxw && zxw.password) {
+            password = zxw.password
+        }
         //http://192.168.0.1//reqproc/proc_post?isTest=false&goformId=LOGIN&password=YWRtaW4%3D
         let url = `${location.origin}/reqproc/proc_post?isTest=false&goformId=LOGIN&password=${Base64.encode(password)}`
         jQuery.ajax({
@@ -32,6 +51,8 @@
                 console.log('print onLoad login', data)
                 if (JSON.parse(data).result === '0') {
                     callback && callback(1)
+                } else {
+                    loginError = true
                 }
             }
         })
@@ -62,8 +83,10 @@
 
     clearInterval(window.timerLogin)
     window.timerLogin = setInterval(() => {
-        login()
-    }, 6000)
+        if (!loginError) {
+            login()
+        }
+    }, 60000)
 
 
     addStyle()
