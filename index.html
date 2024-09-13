@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #viewer,
+        iframe {
+            position: absolute;
+            border: 0px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+    </style>
 </head>
+
 <body>
-    404
+    <iframe id="viewer" name="viewer" allow="fullscreen; xr-spatial-tracking;"
+        src="./threejs/examples/webgl_loader_mmd.html" style="display: unset;"></iframe>
 </body>
+
 </html>
