@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <textarea id="textarea1"></textarea>
+    <textarea id="textarea2"></textarea>
+    <button onclick="myFunction1()">解密</button>
+    <button onclick="myFunction2()">加密</button>
+    <script src="./index.min.js"></script>
+    <script>
+        function myFunction1() {
+            var x = document.getElementById("textarea1").value;
+            var str = semiProgram().decode(x)
+            document.getElementById("textarea2").value = str
+            console.log(JSON.parse(str))
+        }
+        function myFunction2() {
+            var x = document.getElementById("textarea1").value;
+            var str = semiProgram().encode(x)
+            document.getElementById("textarea2").value = str
+            console.log(str)
+        }
+    </script>
+</body>
+
+</html>
